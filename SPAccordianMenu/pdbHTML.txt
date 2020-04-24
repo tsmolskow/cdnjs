@@ -1,0 +1,169 @@
+<div id="rrr"> 
+   <table id="PreparationToFile"> 
+      <tbody> 
+         <tr class="title" id="Title1"> 
+            <td colspan="4">Regulatory Rate Review Status Update</td> 
+         </tr> 
+         <tr class="title" id="Title2"> 
+            <td colspan="4">2019<font color="red"> Arkansas</font> Gas</td> 
+         </tr> 
+         <tr class="title" id="Title3"> 
+            <td colspan="4">Confidential<br/></td> 
+         </tr> 
+         <tr class="title" id="Title4"> 
+            <td colspan="4">Regulatory and Finance Director: 
+               <font color="red"> Tom Molskow</font></td> 
+         </tr> 
+         <tr class="title header" id="Header1"> 
+            <td colspan="5">Preparation to File</td> 
+         </tr> 
+         <tr id="Columns1"> 
+            <td class="columns1" rowspan="2">Expected Filing Date<br/></td> 
+            <td class="columns1" rowspan="2">Expected Rate 
+               <br/> Expected Date</td> 
+            <td class="columns1" rowspan="2">Test Year Base Period</td> 
+            <td class="columns1" rowspan="2">Pro Forma Period 
+               <br/>Test Period</td> 
+         </tr> 
+         <tr> 
+            <td colspan="4"> 
+            </td> 
+         </tr> 
+         <tr id="Data1"> 
+            <td class="columns1">12/26/2019<br/></td> 
+            <td class="columns1">01/02/2020<br/></td> 
+            <td class="columns1">Test Year Base Period</td> 
+            <td class="columns1">Pro Forma Period Test Period<br/></td> 
+         </tr> 
+      </tbody> 
+   </table> 
+   <table id="SummaryOfFiling" style="width: 675px;"> 
+      <tbody> 
+         <tr class="title header1 " id="Header2"> 
+            <td width="610" colspan="3">Summary of Filing - CONFIDENTIAL<br/></td> 
+         </tr> 
+         <tr class="header2"> 
+            <td style="width: 185px; text-align: center;">&#160;</td> 
+            <td style="width: 185px; text-align: center;">Requested</td> 
+            <td style="width: 185px; text-align: center;">Final</td> 
+         </tr> 
+         <tr id="SFData1"> 
+            <td style="width: 185px; text-align: right;">Total Revenue Requirement</td> 
+            <td style="width: 185px; text-align: center;">Total Revenue Requirement</td> 
+            <td style="width: 185px; text-align: center;">Total Revenue Requirement</td> 
+         </tr> 
+         <tr id="SFData3"> 
+            <td style="width: 185px; text-align: right;">% Revenue Increase<br/></td>
+            <td style="width: 185px; text-align: center;">% Revenue Increase</td> 
+            <td style="width: 185px; text-align: center;">% Revenue Increase</td> 
+         </tr> 
+         <tr> 
+            <td style="width: 185px; text-align: right;">$ New Revenue Requested<br/></td> 
+            <td style="width: 185px; text-align: center;">$ New Revenue Requested</td> 
+            <td style="width: 185px; text-align: center;">$ New Revenue Requested</td> 
+         </tr> 
+         <tr id="SFData5"> 
+            <td style="width: 185px; text-align: right;">Bugeted New Revenue<br/></td>
+            <td style="width: 185px; text-align: center;">Bugeted New Revenue</td> 
+            <td style="width: 185px; text-align: center;">Bugeted New Revenue</td> 
+         </tr> 
+         <tr id="SFData6"> 
+            <td style="width: 185px; text-align: right;">ROE<br/></td> 
+            <td style="width: 185px; text-align: center;">Revenue Increase Requested</td> 
+            <td style="width: 185px; text-align: center;">Revenue Increase Final</td> 
+         </tr> 
+         <tr id="SFData7"> 
+            <td style="width: 185px; text-align: right;">Cap Structure (Debt/Equity)<br/></td>
+            <td style="width: 185px; text-align: center;">Cap Structure (Debt/Equity)</td> 
+            <td style="width: 185px; text-align: center;">Cap Structure (Debt/Equity)</td>
+         </tr> 
+         <tr id="SFData8"> 
+            <td style="width: 185px; text-align: right;">ROR (WACC)<br/></td> 
+            <td style="width: 185px; text-align: center;">ROR (WACC)</td> 
+            <td style="width: 185px; text-align: center;">ROR (WACC)<br/></td> 
+         </tr> 
+         <tr id="SFData9"> 
+            <td style="width: 185px; text-align: right;">Total Rate Base<br/></td>
+            <td style="width: 185px; text-align: center;">Total Rate Base</td> 
+            <td style="width: 185px; text-align: center;">Total Rate Base<br/></td> 
+         </tr>
+         <tr id="SFData10">
+            <td style="width: 185px; text-align: right;">$ Impact per Customer (R)<br/></td>
+            <td style="width: 185px; text-align: center;">?$ Impact per Customer (R)</td>
+            <td style="width: 185px; text-align: center;">$ Impact per Customer (R)<br/></td>
+         </tr>
+         <tr id="SFData11">
+            <td style="width: 185px; text-align: right;">% of Customer Increase (R)<br/></td>
+            <td style="width: 185px; text-align: center;">% of Customer Increase (R)?</td>
+            <td style="width: 185px; text-align: center;">?% of Customer Increase (R)<br/></td>
+         </tr> 
+         <tr id="SFData12">
+            <td style="width: 185px; text-align: right;">?Rider Information<br/></td>
+            <td style="width: 185px; text-align: center;">Rider Information?</td>
+            <td style="width: 185px; text-align: center;">?Rider Information<br/></td>
+         </tr> 
+         <tr> 
+         </tr> 
+      </tbody> 
+   </table> 
+</div>
+<br/> 
+<br/> 
+<div id="wts">
+</div>
+<div id="drr">
+</div>
+<br/> 
+<br/>
+<table id="SummaryOfFiling" style="width: 675px;"> 
+   <tbody> 
+      <tr class="title header1 " id="Header3"> 
+         <td width="610" colspan="3">Procedural Schedule<br/></td> 
+      </tr> 
+      <tr class="header2"> 
+         <td style="width: 185px; text-align: center;">Title</td> 
+         <td style="width: 185px; text-align: center;">Start Date</td> 
+         <td style="width: 185px; text-align: center;">End Date<br/></td> 
+      </tr> 
+      <tr id="SFData1">
+         <td style="width: 185px; text-align: center;">Title?</td>
+         <td style="width: 185px; text-align: center;">Start Date</td>
+         <td style="width: 185px; text-align: center;">End Date</td>
+      </tr> 
+      <tr id="SFData2">
+         <td style="width: 185px; text-align: center;">Title?</td>
+         <td style="width: 185px; text-align: center;">Start Date</td>
+         <td style="width: 185px; text-align: center;">End Date</td>
+      </tr> 
+      <tr id="SFData3">
+         <td style="width: 185px; text-align: center;">Title?</td>
+         <td style="width: 185px; text-align: center;">Start Date</td>
+         <td style="width: 185px; text-align: center;">End Date</td>
+      </tr> 
+      <tr id="SFData4">
+         <td style="width: 185px; text-align: center;">Title?</td>
+         <td style="width: 185px; text-align: center;">Start Date</td>
+         <td style="width: 185px; text-align: center;">End Date</td>
+      </tr> 
+      <tr id="SFData5">
+         <td style="width: 185px; text-align: center;">Title?</td>
+         <td style="width: 185px; text-align: center;">Start Date</td>
+         <td style="width: 185px; text-align: center;">End Date</td>
+      </tr> 
+      <tr id="SFData6">
+         <td style="width: 185px; text-align: center;">Title</td>
+         <td style="width: 185px; text-align: center;">Start Date </td>
+         <td style="width: 185px; text-align: center;">End Date </td>
+      </tr> 
+      <tr id="SFData7">
+         <td style="width: 185px; text-align: center;">Title?</td>
+         <td style="width: 185px; text-align: center;">Start Date</td>
+         <td style="width: 185px; text-align: center;">End Date</td>
+      </tr> 
+      <tr id="SFData8">
+         <td style="width: 185px; text-align: center;">Title?<br/></td>
+         <td style="width: 185px; text-align: center;">Start Date</td>
+         <td style="width: 185px; text-align: center;">End Date<br/><br/></td>
+      </tr>
+   </tbody> 
+</table> 
