@@ -1,0 +1,241 @@
+# Regulatory Site Collection Permission Report
+# Last Update October 2019
+# See User Guide's for More Information 
+
+cls
+Add-PSSnapin Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue
+
+#!!! Set This Value Equal to the Report Location
+$FilePath = "F:\Scripts\Reports\SharePoint_Permission_Report_" + $(get-date -f dd_MM_yyyy_HH_mm_ss) +".csv"
+#!!! Set This Value Equal to the Dev\Test or Production Domain !!!
+$SiteURL = "https://bentest.bhcorp.ad"
+#!!! Set This Value Equal to the Dev\Test or Production Regulatory Site Collection that the Report will be Run Against !!!
+$SiteCollections = Get-SPSite "https://bentest.bhcorp.ad/sites/regulatory3/"
+#!!! Set This Value Equal to the Dev\Test or Production Site that the Report will be Uploaded To !!!
+$WebURL = "https://bentest.bhcorp.ad/sites/regulatory3/" 
+#!!! Set This Value Equal to the Dev\Test or Production Library that the Report will be Uploaded To !!!
+$DocLibName = "Security Reports"
+
+Function GetUserAccessReport($WebAppURL, $FileUrl)
+{
+    #!!! Set This Value Equal to the Dev\Test or Production Regulatory Site Collection !!!
+    #$SiteCollections = Get-SPSite "https://bentest.bhcorp.ad/sites/regulatory3/"
+
+    #Append User Level Header
+    "******* Security Report - User Level, $($WebApp.Name), $($WebApp.URL) *******" | Out-File $FileUrl
+
+    #Append Web Application Header
+    " " | Out-file $FileUrl -Append
+    "User Level Security" | Out-file $FileUrl -Append
+    “   User Name | User Login | Groups" | Out-file $FileUrl -Append
+
+    $AllSCUsers = Get-SPUser -Web $SiteCollections.Url | Select DisplayName, UserLogin, IsDomainGroup, Groups 
+    foreach($SCUser in $AllSCUsers){
+
+        If($SCUser.IsDomainGroup){
+
+            "      Name: $($SCUser.DisplayName) | Login: $($SCUser.UserLogin) | Domain Group " | Out-file $FileUrl -Append
+
+        } elseif ($SCUser.Groups.Count -eq 0) {
+
+            "      Name: $($SCUser.DisplayName) | Login: $($SCUser.UserLogin) | Direct Permission " | Out-file $FileUrl -Append
+
+        } else {
+
+            "      Name: $($SCUser.DisplayName) | Login: $($SCUser.UserLogin) | Groups: $($SCUser.Groups -join ", ") " | Out-file $FileUrl -Append
+        }
+
+    }
+
+    #Append Web Application Header
+    " " | Out-file $FileUrl -Append
+    "******* Security Report - Web Application Level, $($WebApp.Name), $($WebApp.URL) *******" | Out-File $FileUrl -Append
+
+    #Append Web Application Header
+    " " | Out-file $FileUrl -Append
+    "Web Application Level Security" | Out-file $FileUrl -Append
+    “   Web App Group or User | Web App Group or User Permissions" | Out-file $FileUrl -Append
+
+    #Check Web Application Policies
+    $WebApp= Get-SPWebApplication $WebAppURL
+
+    foreach ($Policy in $WebApp.Policies)
+    {
+
+        $PolicyRoles=@()
+        foreach($Role in $Policy.PolicyRoleBindings)
+        {
+            $PolicyRoles+= $Role.Name +";"
+        }
+
+        #Append Web App Security Information
+        "      Group or User: $($Policy.UserName.ToString().replace('i:0#.w|','')) | Permissions: $($PolicyRoles)” | Out-File $FileUrl -Append
+
+    }
+
+    #*** Site Collection Level Security ***
+    #Loop Through All Site Collections
+
+    foreach($Site in $SiteCollections)
+    {
+        
+        #Append Site Collection Header
+        " "  | Out-File $FileUrl -Append
+        "******* Security Report - Site Collection Level, $($Site.RootWeb.Title), $($Site.RootWeb.Url) *******" | Out-File $FileUrl -Append
+
+        #Append Site Collection Administrator Header
+        " "  | Out-File $FileUrl -Append
+        "$($Site.RootWeb.Title) Site Collection Administrators" | Out-File $FileUrl -Append
+        "   Admin Name | Admin Login | Admin Email" | Out-File $FileUrl -Append
+        
+        #* Site Collection Administrators *
+        foreach($SiteCollAdmin in $Site.RootWeb.SiteAdministrators)
+        {         
+                 
+            #Append Site Collection Administrator Security Information
+            “      Name: $($SiteCollAdmin.DisplayName) | Login: $($SiteCollAdmin.LoginName.ToString().replace('i:0#.w|','')) | Email: $($SiteCollAdmin.Email)" | Out-File $FileUrl -Append 
+        }
+
+        #Loop Throuh all Sub-Sites
+        foreach($Web in $Site.AllWebs)
+        {
+         
+            #* Site Owners *   
+            #Append Site Owner Header
+            " "  | Out-File $FileUrl -Append
+            "$($Web.Title) Site Owners - $($Web.AssociatedOwnerGroup) Group"  | Out-File $FileUrl -Append
+            "   Owner Group | Owner Name | Owner Login | Owner Email" | Out-File $FileUrl -Append
+
+            foreach($owner in $Web.AssociatedOwnerGroup.Users) {                
+
+                #Append Site Owner Security Information
+                "      Name: $($owner.DisplayName) | Login: $($owner.LoginName.ToString().replace('i:0#.w|','')) | Email: $($owner.Email)" | Out-File $FileUrl -Append
+
+            }
+
+            #* Site Groups *
+            #Append Site Groups Header
+            " "  | Out-File $FileUrl -Append
+            "$($Web.Title) Site Groups" | Out-File $FileUrl -Append
+            "   Group Name | Group Owner Name | Group Owner Login | Group Members | Group Member Name | Group Member Login" | Out-File $FileUrl -Append
+
+            foreach($groups in $Web.Groups) {
+
+               #Append Site Groups Security Information
+               "      Group: $($groups.Name) | Owner Name: $($groups.Owner.DisplayName) | Owner Login: $($groups.Owner.LoginName.ToString().replace('i:0#.w|',''))" | Out-File $FileUrl -Append
+
+               foreach($groupUser in $groups.Users){
+
+                  foreach ($userInGroup in $groupUser) {
+
+                    "         Name: $($userInGroup.DisplayName) | Login:  $($userInGroup.LoginName.ToString().replace('i:0#.w|',''))" | Out-File $FileUrl -Append
+
+                  }
+               }
+            }
+
+            
+            #* Site Users *
+            #Append Site Users Header
+            " "  | Out-File $FileUrl -Append
+            "$($Web.Title) Site Users" | Out-File $FileUrl -Append
+            "   User Name | User Login | User's Groups" | Out-File $FileUrl -Append
+
+            $AllSCUsersWeb = Get-SPUser -Web $Web.Url | Select DisplayName, UserLogin, IsDomainGroup, Groups 
+            foreach($SCUserWeb in $AllSCUsersWeb){
+
+                If($SCUserWeb.IsDomainGroup){
+
+                    "      Name: $($SCUserWeb.DisplayName) | Login: $($SCUserWeb.UserLogin) | Domain Group " | Out-file $FileUrl -Append
+
+                } elseif ($SCUserWeb.Groups.Count -eq 0) {
+
+                    "      Name: $($SCUserWeb.DisplayName) | Login: $($SCUserWeb.UserLogin) | Direct Permission " | Out-file $FileUrl -Append
+
+                } else {
+
+                    "      Name: $($SCUserWeb.DisplayName) | Login: $($SCUserWeb.UserLogin) | Groups: $($SCUserWeb.Groups -join ", ") " | Out-file $FileUrl -Append
+                }
+            }
+
+            
+        #*** List Level Security ***
+        #* Check Lists with Unique Permissions *
+        foreach($List in $Web.lists)
+        {
+            if($List.HasUniqueRoleAssignments -eq $True -and ($List.Hidden -eq $false))
+        {
+
+        #* Site Lists *
+        #Append Site List Header
+        " "  | Out-File $FileUrl -Append
+        "$($Web.Title) Site List With Unique Permissions - $($List.Title)" | Out-File $FileUrl -Append
+        "   List Group | Group Permissions | Group Members" | Out-File $FileUrl -Append
+
+        #Get All Users Granted Permissions List
+        foreach($ListRoleAssignment in $List.RoleAssignments)
+        {
+
+            #Users Granted Direct Permissions
+            if($ListRoleAssignment.Member.userlogin)
+            {
+
+                #Get the Permissions Assigned to the User
+                $ListUserPermissions=@()
+
+                foreach ($RoleDefinition  in $ListRoleAssignment.RoleDefinitionBindings)
+                {
+                    $ListUserPermissions += $RoleDefinition.Name +";"
+                }
+
+                #Append Site List Security Information
+                "     Direct Permission: $($ListRoleAssignment.Member.Name) | Permission: $($ListUserPermissions) |  User: $($ListRoleAssignment.Member.ToString().replace('i:0#.w|',''))” | Out-File $FileUrl -Append
+
+            }
+
+            #Check Group Permissions for the User
+            else
+            {
+                   
+                #Get Group Permissions for the List
+                $ListGroupPermissions=@()
+
+                foreach ($RoleDefinition  in $ListRoleAssignment.RoleDefinitionBindings)
+                {
+                    $ListGroupPermissions += $RoleDefinition.Name +";"
+                }
+                
+                “     Group: $($ListRoleAssignment.Member.Name) | Permissions: $($ListGroupPermissions)” | Out-File $FileUrl -Append
+
+                foreach($user in $ListRoleAssignment.member.users){
+
+                    foreach ($listUser in $users) {
+
+                        "        Name: $($user.DisplayName) | Login: $($user.LoginName.ToString().replace('i:0#.w|',''))"  | Out-File $FileUrl -Append
+
+                }
+
+              }
+            {            
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+}
+
+#This Command Runs the Report
+GetUserAccessReport $SiteUrl $FilePath
+
+#Upload the Finished Report to the Report Library
+$Web = Get-SPWeb $WebURL 
+$List = $Web.GetFolder($DocLibName) 
+$Files = $List.Files
+$FileName = $FilePath.Substring($FilePath.LastIndexOf("\")+1)
+$File= Get-ChildItem $FilePath
+$Files.Add($DocLibName +"/" + $FileName,$File.OpenRead(),$false) 
+
+#Dispose of Objects
+$web.Dispose()
