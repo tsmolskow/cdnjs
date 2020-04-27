@@ -1,0 +1,223 @@
+<script language="javascript" src="https://ben.blackhillscorp.com/sites/Regulatory/SiteAssets/JavaScript/jquery-1.11.3.min.js"></script><script language="javascript" src="https://ben.blackhillscorp.com/sites/Regulatory/SiteAssets/JavaScript/jquery.SPServices-2014.02.js"></script><script language="javascript">
+
+
+
+_spBodyOnLoadFunctionNames.push("validate"); { 
+
+}  
+
+function PreSaveAction() {
+   
+   //*** Title
+   var strTitle = $("input[title='Title']").val();
+   //alert("Title: " + strTitle); //For Testing
+   
+   //*** Level
+   var ddlLevel = $("select[title='Level'] option:selected").text();
+   //alert("Level: " + ddlLevel); //For Testing
+  
+   //*** Level 1 Sequence
+   var ddlLvl1Sequence = $("select[title='Level 1 Sequence'] option:selected").text();
+   //alert("Lvl1Sequence: " + ddlLvl1Sequence); //For Testing
+     
+   //*** Level 2 Sequence
+   var ddlLvl2Sequence = $("select[title='Level 2 Sequence'] option:selected").text();
+   //alert("Lvl2Sequence: " + ddlLvl2Sequence); //For Testing
+   
+   //*** Top Item ID
+   var ddlTopItemID = $("select[title='Top Item ID'] option:selected").text();
+   //alert("ddlTopItemID: " + ddlTopItemID); //For Testing
+   
+   //*** Link
+   var strLink = $("input[title='Link']").val();
+   //alert("Link: " + strLink); //For Testing
+
+   return validateForm();
+
+   function validateForm(){   
+      
+   //*** Validate: If Not Level 1 And Not Level 2 Item 
+   if(ddlLevel != "1" || ddlLevel != "2") {
+   
+      //*** General Validations: Ensure a Title Has Been Provided - Not Working
+   
+      //var valStrTitle = "";
+      var valDdlLevel = "";
+      
+      //var errStrTitle = "";
+      var errDdlLevel = "";
+   
+      //if(strTitle == "") {
+         //alert("Title: You must provide a Title " + strTitle); //For Testing
+         //valStrTitle = "false";
+         //errStrTitle = "Title: You must provide a Title\n\n"; 
+         ////return false;
+      //} else {
+         ////alert("You have provided a Title " + strTitle);
+         //valStrTitle = "true"; 
+         ////return true;
+      //}
+
+      //*** Level Validation: Ensure a Level Has Been Selected
+   
+      if(ddlLevel == "1" || ddlLevel == "2"){
+         //alert("You have choosen a Level " + ddlLevel); //For Testing 
+         valDdlLevel = "true";
+         //return true;
+      } else {
+         alert("Level: You must choose a Level");
+         valDdlLevel = "false";
+         errDdlLevel = "Level: You must choose a Level\n\n";
+         //return false;
+      }
+   }
+   
+   //*** Validate: If Level 2 Item
+   if(ddlLevel == "2") {
+   
+      var valStrTitle2 = "";
+      var valLink2 = "";
+      var valLvl1Sequence2 = "";
+      var valLvl2Sequence2 = "";
+      var valTopItemID2 = ""; 
+      
+      var errorMsg = ""; 
+      
+      var errStrTitle2 = "";
+      var errLink2 = "";
+      var errLvl1Sequence2 = "";
+      var errLvl2Sequence2 = "";
+      var errTopItemID2 = "";    
+   
+      if(strTitle == "") {
+         //alert("Title: You must provide a Title " + strTitle); //For Testing
+         valStrTitle2 = "false";
+         errStrTitle2 = "Title: You must provide a Title\n\n"; 
+         //return false;
+      } else {
+         //alert("You have provided a Title " + strTitle);
+         valStrTitle2 = "true"; 
+         //return true;
+      }
+
+      
+      //The Level 1 Sequence Field Value Should Be Zero
+      if(ddlLvl1Sequence == "0") {
+        valLvl1Sequence2 = "true";
+      } else {
+        errorMsg += "Level 1 Sequence: You have chosen to create a Level 2 Item, the Level 1 Sequence should be Zero\n\n";         
+        valLvl1Sequence2 = "false";
+      }
+      
+      //The Level 2 Sequence Must Not be Zero
+      if(ddlLvl2Sequence == "0") {
+        errorMsg += "Level 2 Sequence: You have chosen to create a Level 2 menu item, the Level 2 Sequence must not be set to Zero\n\n";
+        valLvl2Sequence2 = "false";
+      } else {
+        //alert("The Level 2 Sequence is not set to Zero"); //For Testing
+        valLvl2Sequence2 = "true";
+      }
+      
+      //The Top Item ID Must be Zero
+      if(ddlTopItemID == "0") {
+        errorMsg += "Top Item ID: You have chosen to create a Level 2 menu item, the Top Item ID must not be set to Zero\n\n";
+        valTopItemID2 = "false";
+      } else {
+        //alert("The Top Item ID is not set to Zero");
+        valTopItemID2 = "true";
+      }
+      
+      //The Link Field Should Not Be Empty  
+      if(strLink == "") { 
+         errorMsg += "Link: You have chosen to create a Level 2 Item, you must provide a Link\n\n";
+         valLink2 = "false";
+      } else {
+         //alert("The Link field is not empty");
+         valLink2 = "true";
+      }
+      
+      //Check All Validations and If All True Return True
+      if(valLink2 == "true" && valLvl1Sequence2 == "true" && valLvl2Sequence2 == "true" && valTopItemID2 == "true" && valStrTitle2 == "true" && valDdlLevel == "true") {
+        return true;
+      } else {
+        alert(errStrTitle2 + errDdlLevel + errorMsg);
+        return false;
+      }   
+   }
+
+   //*** Validate: If Level 1 Item
+   if(ddlLevel == "1") {
+      
+      var valStrTitle1 = "";
+      var valLink1 = "";
+      var valLvl1Sequence1 = "";
+      var valLvl2Sequence1 = "";
+      var valTopItemID1 = ""; 
+       
+      var errorMsg = ""; 
+       
+      var errDdlLevel1 = "";
+      var errLink1 = "";
+      var errLvl1Sequence1 = "";
+      var errLvl2Sequence1 = "";
+      var errTopItemID1 = "";
+   
+      if(strTitle == "") {
+         //alert("Title: You must provide a Title " + strTitle); //For Testing
+         valStrTitle1 = "false";
+         errStrTitle1 = "Title: You must provide a Title\n\n"; 
+         //return false;
+      } else {
+         //alert("You have provided a Title " + strTitle);
+         valStrTitle1 = "true";
+         errStrTitle1 = ""; 
+         //return true;
+      }            
+
+      //The Level 1 Sequence Field Value Should Not Be Zero
+      if(ddlLvl1Sequence == "0") {
+        errorMsg += "Level 1 Sequence: You must select a Level 1 Sequence value greater than Zero\n\n";
+        valLvl1Sequence1 = "false";
+      } else {
+        valLvl1Sequence1 = "true";
+      }
+
+      //The Level 2 Sequence Must be Zero
+      if(ddlLvl2Sequence == "0") {
+        //alert("Level 2 Sequence is Zero"); //For Testing
+        valLvl2Sequence1 = "true";
+      } else {
+        errorMsg += "Level 2 Sequence: You have chosen to create a Level 1 menu item, the Level 2 Sequence must be set to Zero\n\n";
+        valLvl2Sequence1 = "false";
+      }
+
+      //The Top Item ID Must be Zero
+      if(ddlTopItemID == "0") {
+        //alert("Top Item ID is Zero"); //For Testing
+        valTopItemID1 = "true";
+      } else {
+        errorMsg += "Top Item ID: You have chosen to create a Level 1 menu item, the Top Item ID must be set to Zero\n\n";
+        valTopItemID1 = "false";
+      }
+      
+      //The Link Field Should Be Empty  
+      if(strLink == "") {        
+         //alert("The Link field is empty"); //For Testing 
+         valLink1 = "true";
+      } else {
+         errorMsg += "Link: You have chosen to create a Level 1 Item, the Link field must be empty\n\n";
+         valLink1 = "false";
+      }
+
+      //Check All Validations and If All True Return True
+      if(valLink1 == "true" && valLvl1Sequence1 == "true" && valLvl2Sequence1 == "true" && valTopItemID1 == "true" && valStrTitle1 == "true" && valDdlLevel == "true") {
+        return true;
+      } else {
+        alert(errStrTitle1 + errDdlLevel + errorMsg);
+        return false;
+      }
+   } 
+ }
+}
+
+</script>

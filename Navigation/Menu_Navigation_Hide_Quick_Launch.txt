@@ -1,0 +1,4 @@
+<style type="text/css">
+ #sideNavBox {DISPLAY: none}
+ #contentBox {MARGIN-LEFT: 5px}
+</style>

@@ -1,0 +1,273 @@
+<script language="javascript" src="https://ben.blackhillscorp.com/sites/Regulatory/SiteAssets/JavaScript/jquery-1.11.3.min.js"></script><script language="javascript" src="https://ben.blackhillscorp.com/sites/Regulatory/SiteAssets/JavaScript/jquery.SPServices-2014.02.js"></script><script language="javascript">
+
+$(function () {
+    $.ajax({
+        url: "/sites/regulatory3/_api/web/lists/GetByTitle('Navigation')/items?$orderby=LVL2Sequence",        
+        type: "GET",
+        headers: {
+            "accept": "application/json;odata=verbose"
+        },
+    }).success(function (data) {
+        
+        var listItemInfo = '';
+        
+        listItemInfo += "<nav><ul id='nav'>"        
+        
+        //Level 1 LVL1Sequence 1
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 1){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "<li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        });       
+
+             
+        //TopItemID 1 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 1){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                                      
+           }                       
+        });          
+                        
+        //Level 1 LVL1Sequence 2
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 2){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+        
+        //TopItemID 2 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 2){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        }); 
+                          
+        
+        //Level 1 LVL1Sequence 3
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 3){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+        
+        //TopItemID 3 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 3){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        });
+
+        //Level 1 LVL1Sequence 4
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 4){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+            
+        //TopItemID 4 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 4){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        });
+
+        //Level 1 LVL1Sequence 5
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 5){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+           
+        //TopItemID 5 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 5){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        });
+
+        //Level 1 LVL1Sequence 6
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 6){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+           
+        //TopItemID 6 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 6){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        });
+
+        //Level 1 LVL1Sequence 7
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 7){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+           
+        //TopItemID 7 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 7){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        });                         
+
+       //Level 1 LVL1Sequence 8
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 8){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+           
+        //TopItemID 8 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 8){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        }); 
+
+        //Level 1 LVL1Sequence 9
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 9){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+           
+        //TopItemID 9 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 9){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        }); 
+
+       //Level 1 LVL1Sequence 10
+        $.each(data.d.results, function (key, value) {
+            
+           //alert("Sequence " + value.Sequence);  
+                          
+           if(value.Level == 1){               
+           
+             if(value.Sequence == 10){
+              //listItemInfo +=  value.Title;  
+              listItemInfo += "</ul></li><li><a href='#'>" + value.Title + "</a><ul>";                                 
+             }             
+           }                           
+        }); 
+
+        //TopItemID 10 Level 2 LVL2Sequence All
+        $.each(data.d.results, function (key, value) {
+
+        if(value.Level == 2){
+        
+             if(value.TopItemID == 10){
+               listItemInfo += "<li><a href='" + value.Link + "'>" + value.Title + "</a></li>";
+               }                  
+           }                       
+        }); 
+        
+        listItemInfo += "</ul></li></ul></nav>"
+        $("#w1").html(listItemInfo);        
+    });
+});
+
+</script>
