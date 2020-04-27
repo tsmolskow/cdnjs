@@ -1,0 +1,441 @@
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+    <title>Custom Task Rollup Prod</title>
+
+
+    <!-- the fields listed use this syntax 'property name' which is used in the scripts below {property display name} which is used in the CSWP edit pane and :'managed property' the actual field name you want to get the value of, this can be a placeholder name that you can fill out in the edit pane or the ACTUAL managed property name -->
+    <!--[if gte mso 9]>
+    <xml>
+    <mso:CustomDocumentProperties>
+        <mso:TemplateHidden msdt:dt="string">0</mso:TemplateHidden>
+        <mso:ManagedPropertyMapping msdt:dt="string">            
+	    &#39;Link URL&#39;{Link URL Label}:&#39;Path&#39;,
+            &#39;Title&#39;{Title Label}:&#39;Title&#39;,
+            &#39;Status&#39;{Status Label}:&#39;StatusOWSCHCS&#39;,
+            &#39;Intervenor&#39;{Intervenor Label}:&#39;IntervenorNameOWSTEXT&#39;,
+	    &#39;Review Task Status&#39;{Review Task Status}:&#39;ReviewTaskStatusOWSCHCS&#39;,
+	    &#39;Party Name&#39;{Party Name}:&#39;PartyNameOWSTEXT&#39;,
+	    &#39;Party Set&#39;{Party Set}:&#39;PartySetOWSTEXT&#39;,
+            &#39;DR Number&#39;{DR Number Label}:&#39;DRNumberOWSTEXT&#39;,
+            &#39;Data Request Topic&#39;{Data Request Topic Label}:&#39;DataRequestTopicOWSCHCS&#39;,
+	    &#39;DR Lookup&#39;{DR Lookup Label}:&#39;DRLookupOWSCHCS&#39;,
+            &#39;Date Received&#39;{Date Received Label}:&#39;DateReceivedOWSDATE&#39;,
+            &#39;Date Response Due&#39;{Date Response Due Label}:&#39;DateResponseDueforReviewOWSDATE&#39;,
+            &#39;Review Date&#39;{Review Date Label}:&#39;ReviewDateOWSDATE&#39;,
+	    &#39;Due Date&#39;{Due Date Label}:&#39;DueDateOWSDATE&#39;,
+            &#39;File Name&#39;{File Name Label}:&#39;Filename&#39;,
+            &#39;Filed Date&#39;{Filed Date Label}:&#39;FiledDateOWSDATE&#39;,
+	    &#39;Served Date&#39;{Served Date}:&#39;ServedDateOWSDATE&#39;,
+            &#39;Externally Confidential&#39;{Externally Confidential Label}:&#39;ExternallyConfidentialOWSBOOL&#39;,
+	    &#39;Highly Confidential&#39;{Highly Confidential Label}:&#39;HighlyConfidentialOWSBOOL&#39;,
+            &#39;Objection&#39;{Objection Label}:&#39;ObjectionOWSBOOL&#39;,
+            &#39;Internally Confidential&#39;{Internally Confidential Label}:&#39;InternalConfidentialOWSBOOL&#39;,
+            &#39;Intervenor Set&#39;{Intervenor Set Label}:&#39;IntervenorSetOWSTEXT&#39;,
+            &#39;Regulatory Partner&#39;{Regulatory Partner Label}:&#39;RegulatoryPartnerOWSUSER&#39;,
+            &#39;Response Preparer&#39;{Response Preparer Label}:&#39;ResponsePreparerOWSUSER&#39;,
+	    &#39;Objection&#39;{Objection Label}:&#39;ObjectionOWSBOOL&#39;,
+            &#39;SME Approver&#39;{SME Approver Label}:&#39;SMEApproverOWSUser&#39;,
+	    &#39;Type of Document&#39;{Type of Document}:&#39;DocTypeOWSCHCS&#39;,
+            &#39;Site Title&#39;{Site Title Label}:&#39;SiteTitle&#39;,
+	    &#39;Task URL&#39;{Task URL Label}:&#39;TaskURLOWSTEXT&#39;,
+            &#39;Due Date&#39;{Due Date Label}:&#39;DueDateOWSDATE&#39;,
+	    &#39;Start Date&#39;{Start Date Label}:&#39;StartDateOWSDATE&#39;,
+	    &#39;Assigned To&#39;{Assigned To Label}:&#39;AssignedToOWSUSER&#39;,
+	    &#39;Content Type&#39;{Content Type Label}:&#39;ContentType&#39;,
+            &#39;Line 1&#39;{Line 1}:&#39;Title&#39;
+        </mso:ManagedPropertyMapping>
+        <mso:MasterPageDescription msdt:dt="string">            This Item Display Template will show all tasks assigned to a User across lists and sites.
+        </mso:MasterPageDescription>
+        <mso:ContentTypeId msdt:dt="string">0x0101002039C03B61C64EC4A04F5361F385106603</mso:ContentTypeId>
+        <mso:TargetControlType msdt:dt="string">;#Content Web Parts;#</mso:TargetControlType>
+        <mso:HtmlDesignAssociated msdt:dt="string">1</mso:HtmlDesignAssociated>
+        <mso:HtmlDesignStatusAndPreview msdt:dt="string">https://ben.blackhillscorp.com/sites/Regulatory/_catalogs/masterpage/Display Templates/Content Web Parts/Item_TaskRollup_Prod.html, Conversion successful.</mso:HtmlDesignStatusAndPreview>
+        <mso:HtmlDesignConversionSucceeded msdt:dt="string">True</mso:HtmlDesignConversionSucceeded>
+        <mso:CrawlerXSLFile msdt:dt="string"></mso:CrawlerXSLFile>
+        <mso:Data_x0020_Request_x0020_Topic msdt:dt="string"></mso:Data_x0020_Request_x0020_Topic>							
+        <mso:HtmlDesignPreviewUrl msdt:dt="string"></mso:HtmlDesignPreviewUrl>
+    <mso:Document_x0020_Type msdt:dt="string">My Task Rollup</mso:Document_x0020_Type>
+</mso:CustomDocumentProperties>
+    </xml>
+    <![endif]-->
+
+    <style type="text/css">
+        tr.rollUpStyle {
+            text-align: center;
+            background: gray;
+        }
+    </style>
+
+</head>
+
+<body>
+<script>
+
+	RegisterSod('jquery-1.11.3.min.js', Srch.U.replaceUrlTokens("~sitecollection/_catalogs/masterpage/Display Templates/Search/jquery-1.11.3.min.js"));	
+
+</script>
+
+    <div id="TaskRollup">
+
+        <!-- all javascript code is surrounded by unique comment tags with hashtag and underscore -->
+        <!-- inside here we are storing values of above fields in variables using the PROPERTY NAME -->
+        <!--#_
+
+  		    //*** General Variables ***//
+
+		    var encodedId = $htmlEncode(ctx.ClientControl.get_nextUniqueId() + "_2lines_");
+                    var linkURL = $getItemValue(ctx, "Link URL");
+                    linkURL.overrideValueRenderer($urlHtmlEncode);
+                    var iconURL = Srch.ContentBySearch.getIconSourceFromItem(ctx.CurrentItem);
+                    var line1 = $getItemValue(ctx, "Line 1");
+                    line1.overrideValueRenderer($contentLineText);
+                    var pictureLinkId = encodedId + "pictureLink";
+                    var pictureId = encodedId + "picture";
+                    var linkURL = $getItemValue(ctx, "Link URL");
+
+		    //*** Content Type ***//
+                      
+                    var contentType = $getItemValue(ctx, "Content Type");
+                    var contentTypeSD = contentType.value;
+                    var strContentTypeSD1 = contentTypeSD.toString();
+                    var strContentTypeSD2 = strContentTypeSD1.replace('application/vnd.openxmlformats-officedocument.wordprocessingml.document',' ');
+                    var strContentTypeSD2Trim = strContentTypeSD2.trim();
+
+                    //*** Rate Review ***//
+
+                    var title = $getItemValue(ctx, "Title");
+                    var status = $getItemValue(ctx, "Status");
+		    var reviewtaskstatus = $getItemValue(ctx, "Review Task Status");                   
+                    var drnumber = $getItemValue(ctx, "DR Number");
+		    var drlookup = $getItemValue(ctx, "DR Lookup");
+		    var doctype = $getItemValue(ctx, "Type of Document");
+		    var filename = $getItemValue(ctx, "File Name"); 
+		    var Objection = $getItemValue(ctx, "Objection");                 
+                    var exconfidential = $getItemValue(ctx, "Externally Confidential");
+                    var objection = $getItemValue(ctx, "Objection");
+                    var inconfidential = $getItemValue(ctx, "Internally Confidential");
+		    var highlyconfidential = $getItemValue(ctx, "Highly Confidential");                    
+                    var sitetitle = $getItemValue(ctx, "Site Title");
+		    //var taskurl = $getItemValue(ctx, "Task URL");  
+
+		    //*** Party Manipulation ***//
+
+		    ///Party Name
+
+		    var partyname = $getItemValue(ctx, "Party Name");
+		    var strpartyname = partyname.toString();
+		    var partynameST = strpartyname.replace(/;/g,",  ");
+
+		    ///Party Set
+
+		    var partyset = $getItemValue(ctx, "Party Set");
+		    var strpartyset = partyset.toString();
+		    var partysetST = strpartyset.replace(/;/g,",  ");
+
+		    //*** Data Request Topic Manipulation ***//
+
+		    var datareqtopic = ctx.CurrentItem.DRLookupOWSCHCS;
+		    var datareqtopicST = datareqtopic.replace(/;/g,", ");
+
+		    //*** Dates Manipulation ***//		    
+
+		    ///Date Recieved - Additional Code to Correct Date and Time Included Issue
+
+		    var datereceived = ctx.CurrentItem.DateReceivedOWSDATE;		  
+		    if (datereceived != null){var datereceivedSD = datereceived.split('T')[0];}
+		    //var strDate = datereceivedSD.toString();
+		    //var dtInclude = strDate.search(';');
+		    //if (dtInclude != -1){
+			//alert("dtInclude " + dtInclude)
+			//var index1 = datereceived.indexOf(';');
+		    	//var index2 = datereceived.indexOf('T');
+		    	//var datereceivedST = datereceived.slice(index1, index2);
+		    	//var datereceivedSD = datereceivedST.replace(/;/g, '');
+		    //};
+
+		    ///Date Response Due
+
+		    var dateresponsedue = ctx.CurrentItem.DateResponseDueforReviewOWSDATE;
+		    if (dateresponsedue != null){var dateresponsedueSD = dateresponsedue.split('T')[0];}
+
+		    ///Review Date
+
+ 		    var reviewdate = ctx.CurrentItem.ReviewDateOWSDATE;
+		    if (reviewdate != null){var reviewdateSD = reviewdate.split('T')[0];}
+
+		    ///Filed or Served Date
+
+		    var fileddate = ctx.CurrentItem.ServedDateOWSDATE;
+		    //alert("Filed Date = " + fileddate);
+		    if (fileddate != null){var fileddateSD = fileddate.split('T')[0];}
+		    //var strDate2 = fileddateSD.toString();
+		    //var dtInclude2 = strDate2.search(';');
+		    //if (dtInclude2 != -1){
+			////alert("dtInclude 2c" + dtInclude2)
+			//var index3 = fileddate.indexOf(';');
+		    	//var index4 = fileddate.indexOf('T');
+		    	//var fileddateST = fileddate.slice(index3, index4);
+		    	//var fileddateSD = fileddateST.replace(/;/g, '');
+		    //};
+
+		    ///Due Date
+
+		    var duedate = ctx.CurrentItem.DueDateOWSDATE;
+		    if (duedate != null){var duedateSD = duedate.split('T')[0];}
+
+		    //*** People Picker Manipulation ***//
+
+		    ///Regulatory Partner
+			
+		    var regulatorypartner = ctx.CurrentItem.RegulatoryPartnerOWSUSER;		    
+		    if (regulatorypartner != null){var regulatorypartnerSN = regulatorypartner.split('|')[1];} 
+		
+		    ///Response Preparer
+
+		    var responsepreparer = ctx.CurrentItem.ResponsePreparerOWSUSER;
+		    if (responsepreparer != null){var responsepreparerSN = responsepreparer.split('|')[1];} 
+		
+		    ///SME Approver
+
+		    var smeapprover = ctx.CurrentItem.SMEApproverOWSUser;
+		    if (smeapprover != null){var smeapproverSN = smeapprover.split('|')[1];}
+
+		    //*** Task URL ***//
+
+		    var taskurl = $getItemValue(ctx, "Task URL");
+                    //strURL7 = taskurl;
+		    var strURL = taskurl.toString();
+		    var strURL1 = strURL.replace('&lt;','<');		    	    
+		    var strURL2	= strURL1.replace('&quot;','"');
+		    var strURL3	= strURL2.replace('&quot;','"');		    
+		    var strURL4	= strURL3.replace('&gt;','>');
+		    var strURL5 = strURL4.replace('&lt;','<');	
+		    var strURL6 = strURL5.replace('&gt;','>');
+		    var strURL7 = strURL6.replace('a','a style="color:white;"');
+
+                    //*** Project Tasks ***//
+
+                    ///Assigned To
+
+                    //var assignedto0 = $getItemValue(ctx, "Assigned To");
+		    //var assignedto1 = assignedto0.toString();
+                    //var assignedto2 = assignedto1.indexOf(',');
+                    //var assignedto3 = assignedto1.slice(0,assignedto2);
+                    //var assignedto4 = assignedto1.lastIndexOf(',');
+                    //var assignedto5 = assignedto1.slice(assignedto4);
+		    //var assignedto6 = assignedto5 + " " + assignedto3;
+                    //var assignedto7 = assignedto6.slice(1);
+                    //var strAssignedTo = assignedto7.trim();
+
+
+                   ///Assigned To
+
+
+		    var assignedTo0 = $getItemValue(ctx, "Assigned To");
+		    var assignedTo1 = assignedTo0.toString();
+		    var count = (assignedTo1.split(",").length - 1); // Get the count of the number of ','
+		    
+		    if (count <= 2){ // One Assignee
+
+		    	var assignedto0 = $getItemValue(ctx, "Assigned To"); // Get the Assigned To value
+		    	var assignedto1 = assignedto0.toString(); // Set the variable to string
+                    	var assignedto2 = assignedto1.indexOf(','); // Get the location of the first ','
+                    	var assignedto3 = assignedto1.slice(0,assignedto2); // Get the last name
+                    	var assignedto4 = assignedto1.lastIndexOf(','); // Get the location of the last ','
+                    	var assignedto5 = assignedto1.slice(assignedto4); // Get the first name
+		    	var assignedto6 = assignedto5 + " " + assignedto3; // Combine the first and last name
+                    	var assignedto7 = assignedto6.slice(1); // Remove the ','
+                    	var strAssignedTo = assignedto7.trim(); // Remove leading white spaces
+
+                    } else { // Two Asignees
+
+			//Declare String Variables
+
+		        var assignedto0 = $getItemValue(ctx, "Assigned To");  
+		    	var assignedto1 = assignedto0.toString(); //Get the full string - ex: Jernigan, Jennifer,Molskow, TomJernigan, JenniferMolskow, Tom 
+                    	var assignedto2 = assignedto1.indexOf(','); // Get the location of the first ',' - ex: 8
+			var assignedto3 = assignedto2 + 1; // Add one to get text after the first ',' - ex: 9 
+			var assignedto4 = assignedto1.indexOf(',', assignedto3); // Get the location of the second ',' - ex: 18
+			
+			//First Assignee
+
+			var assignedto5 = (assignedto1.slice(0,assignedto4)).toString(); // Get the first asignee string - ex: Jernigan, Jennifer 
+			var assignedto6 = assignedto5.indexOf(','); // Get the location of the ',' in the first asignee string - ex: 8
+			var assignedto7 = assignedto5.slice(assignedto6 + 1); // Get the first name - ex: Jennifer
+			var assignedto8 = assignedto5.slice(0, assignedto6); // Get the last name - ex: Jernigan
+			var assignedto9 = assignedto7 + " " + assignedto8 + ", "; // Restructure the name to be first last plus ',' - ex: Jennifer Jernigan, 
+			
+			//Second Assignee
+                        var assignedto10 = assignedto1.indexOf(',', assignedto4 + 1); // Get the location of the third ',' - ex: 26
+			var assignedto11 = assignedto1.slice(assignedto4 + 1, assignedto10); // Get the last name - ex: Molskow
+			var assignedto12 = assignedto1.lastIndexOf(','); // Get the location of the last ',' - ex: 56
+			var assignedto13 = assignedto1.slice(assignedto12 + 1); // Get the first name - ex: Tom
+			var assignedto14 = assignedto13 + " " + assignedto11
+
+			//Combined Assignees
+
+			var assignedto15 = assignedto9 + " " + assignedto14 // Combined Assignees			
+
+			//Display
+
+                    	var strAssignedTo = assignedto15; // Display String		
+			
+		    }
+
+		    //var strAssignedTo = ctx.CurrentItem.AssignedToOWSUSER
+
+                    ///Task Start Date
+
+                    //var startdate = $getItemValue(ctx, "Start Date");
+		    var startdate = ctx.CurrentItem.StartDateOWSDATE;
+		    if (startdate != null){var startdateSD = startdate.split('T')[0];}
+		    if (startdate == null){var startdateSD = "No Start Date Chosen";}
+
+                    ///Task Due Date
+
+                    var taskduedate = ctx.CurrentItem.DueDateOWSDATE
+		    if (taskduedate != null){var taskduedateSD = taskduedate.split('T')[0];}
+		    if (taskduedate == null){var taskduedateSD = "No Due Date Chosen";}
+
+		    
+        </script>
+
+                _#-->
+
+        <div class="item-container">
+
+                <!-- *** Check Content Type - If Not Rate Review then Project Task *** -->
+		<!--#_
+		   if(strContentTypeSD2Trim != "Rate Review")
+				   
+    		{
+		_#-->
+
+                <table>
+                   <tr>
+                      <th colspan="15" width="1100px" style="text-align:center; background:#504A4B; color:white;">
+                         Project Task
+                      </th>
+		  </tr>
+		  <tr>
+
+                    <td colspan="15" width="100%" style="text-align:center; background:grey; color:white;">
+  			<a href=" _#=linkURL =#_ " style="color:white;"> _#= sitetitle =#_ | _#= title =#_ </a>
+
+                <!-- *** Check Rate Review Item - Has a Task Been Created *** -->
+	        <!--#_
+
+		   if(strURL7 != ""){ 
+
+		_#-->
+
+                    | _#= strURL7 =#_ 
+		
+		<!--#_
+		 }
+		_#--> 
+
+                    </td>
+
+                  </tr>
+    		  <tr>		      		      
+		      <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= strAssignedTo =#_ </td>		      
+		      <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= startdateSD =#_ </td>
+		      <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= taskduedateSD =#_ </td>
+                   </tr>
+		</table>
+
+		<!--#_
+		}
+		_#--> 
+         
+
+               <!-- Check Content Type - Is It Rate Review? -->
+		<!--#_
+
+		   if(strContentTypeSD2Trim == "Rate Review")
+				   
+    		{
+	        _#-->
+
+	      <table>
+        
+                <tr>
+                  <th colspan="15" width="900px" style="text-align:center; background:#504A4B; color:white;">
+                      Rate Review Task
+                  </th>
+		</tr>
+                <tr>
+
+                    <td colspan="15" width="100%" style="text-align:center; background:grey; color:white;">
+  			<a href=" _#=linkURL =#_ " style="color:white;"> _#= sitetitle =#_ | _#= filename =#_ </a> 
+
+		<!--#_
+
+		   if(strURL7 != ""){ 
+
+		_#-->
+
+                    | _#= strURL7 =#_ 
+		
+		<!--#_
+		 }
+		_#-->  
+
+                    </td>
+
+                </tr>
+                <tr style="text-align:left;">
+
+                    <td rowspan="3" width="75px">_#= reviewtaskstatus =#_</td> 
+                    <td rowspan="3" width="75px" style="text-align:center;"> _#= partynameST =#_ </td>
+		    <td rowspan="3" width="75px" style="text-align:center;"> _#= partysetST =#_ </td>		                    
+                    <td rowspan="3" width="50px" style="text-align:center;"> _#= drnumber =#_ </td>
+
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= doctype =#_ </td>
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= datareqtopicST =#_ </td>
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= datereceivedSD =#_ </td>
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= dateresponsedueSD =#_ </td> 
+
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= duedateSD =#_ </td> 		
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= reviewdateSD =#_ </td>		     
+        	    <td rowspan="3" width="85px" style="text-align:center;"> _#= fileddateSD =#_ </td>            
+		    <td rowspan="3" width="50px" style="text-align:center;"> _#= Objection =#_ </td>
+
+                </tr>
+
+		<tr><td>&nbsp;</td></tr>
+		<tr><td>&nbsp;</td></tr>
+
+		<tr style="text-align:center; border:0.5px solid #F88007;">
+
+		    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> 
+			_#= highlyconfidential =#_  </td>
+                    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= inconfidential =#_ </td>
+                    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= exconfidential =#_ </td>
+
+                </tr>
+
+		<tr><td>&nbsp;</td></tr>
+
+                <tr style="text-align:center; border:0.5px solid #F88007;">	
+
+		    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> 
+			_#= regulatorypartnerSN =#_  </td>
+		    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= responsepreparerSN =#_ </td>
+		    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= smeapproverSN =#_ </td>	   
+
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+	
+		<!--#_
+		}
+		_#--> 
+
+            </table>
+
+
+        </div>
+    </div>
+</body>
+</html>

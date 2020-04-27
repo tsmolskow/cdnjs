@@ -1,0 +1,248 @@
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+    <title>Custom Task Rollup</title>
+
+
+    <!-- the fields listed use this syntax 'property name' which is used in the scripts below {property display name} which is used in the CSWP edit pane and :'managed property' the actual field name you want to get the value of, this can be a placeholder name that you can fill out in the edit pane or the ACTUAL managed property name -->
+    <!--[if gte mso 9]>
+    <xml>
+    <mso:CustomDocumentProperties>
+        <mso:TemplateHidden msdt:dt="string">0</mso:TemplateHidden>
+        <mso:ManagedPropertyMapping msdt:dt="string">
+            &#39;Link URL&#39;{Link URL Label}:&#39;Path&#39;,
+            &#39;Title&#39;{Title Label}:&#39;Title&#39;,
+            &#39;Status&#39;{Status Label}:&#39;StatusOWSCHCS&#39;,
+            &#39;Intervenor&#39;{Intervenor Label}:&#39;IntervenorNameOWSTEXT&#39;,
+            &#39;DR Number&#39;{DR Number Label}:&#39;DRNumberOWSTEXT&#39;,
+            &#39;Data Request Topic&#39;{Data Request Topic Label}:&#39;DataRequestTopicOWSCHCS&#39;,
+	    &#39;DR Lookup&#39;{DR Lookup Label}:&#39;DRLookupOWSCHCS&#39;,
+            &#39;Date Received&#39;{Date Received Label}:&#39;DateReceivedOWSDATE&#39;,
+            &#39;Date Response Due&#39;{Date Response Due Label}:&#39;DateResponseDueforReviewOWSDATE&#39;,
+            &#39;Review Date&#39;{Review Date Label}:&#39;ReviewDateOWSDATE&#39;,
+	    &#39;Due Date&#39;{Due Date Label}:&#39;DueDateOWSDATE&#39;,
+            &#39;File Name&#39;{File Name Label}:&#39;Filename&#39;,
+            &#39;Filed Date&#39;{Filed Date Label}:&#39;FiledDateOWSDATE&#39;,
+            &#39;Externally Confidential&#39;{Externally Confidential Label}:&#39;ExternallyConfidentialOWSCHCS&#39;,
+	    &#39;Highly Confidential&#39;{Highly Confidential Label}:&#39;HighlyConfidentialOWSBOOL&#39;,
+            &#39;Objection&#39;{Objection Label}:&#39;ObjectionOWSBOOL&#39;,
+            &#39;Internally Confidential&#39;{Internally Confidential Label}:&#39;InternalConfidentialOWSBOOL&#39;,
+            &#39;Intervenor Set&#39;{Intervenor Set Label}:&#39;IntervenorSetOWSTEXT&#39;,
+            &#39;Regulatory Partner&#39;{Regulatory Partner Label}:&#39;RegulatoryPartnerOWSUSER&#39;,
+            &#39;Response Preparer&#39;{Response Preparer Label}:&#39;ResponsePreparerOWSUSER&#39;,
+	    &#39;Objection&#39;{Objection Label}:&#39;Objection0OWSBOOL&#39;,
+            &#39;SME Approver&#39;{SME Approver Label}:&#39;SMEApproverOWSUser&#39;,
+            &#39;Site Title&#39;{Site Title Label}:&#39;SiteTitle&#39;,
+	    &#39;Task URL&#39;{Task URL Label}:&#39;TaskURLOWSTEXT&#39;,
+            &#39;Line 1&#39;{Line 1}:&#39;Title&#39;
+        </mso:ManagedPropertyMapping>
+        <mso:MasterPageDescription msdt:dt="string">
+            This Item Display Template will show all tasks assigned to a User across lists and sites.
+        </mso:MasterPageDescription>
+        <mso:ContentTypeId msdt:dt="string">0x0101002039C03B61C64EC4A04F5361F385106603</mso:ContentTypeId>
+        <mso:TargetControlType msdt:dt="string">;#Content Web Parts;#</mso:TargetControlType>
+        <mso:HtmlDesignAssociated msdt:dt="string">1</mso:HtmlDesignAssociated>
+        <mso:HtmlDesignStatusAndPreview msdt:dt="string">https://bentest.bhcorp.ad/sites/regulatory3/_catalogs/masterpage/Display Templates/Content Web Parts/Item_TaskRollup.html, Conversion successful.</mso:HtmlDesignStatusAndPreview>
+        <mso:HtmlDesignConversionSucceeded msdt:dt="string">True</mso:HtmlDesignConversionSucceeded>
+        <mso:CrawlerXSLFile msdt:dt="string"></mso:CrawlerXSLFile>
+        <mso:Data_x0020_Request_x0020_Topic msdt:dt="string"></mso:Data_x0020_Request_x0020_Topic>							
+        <mso:HtmlDesignPreviewUrl msdt:dt="string"></mso:HtmlDesignPreviewUrl>
+    <mso:Document_x0020_Type msdt:dt="string">My Task Rollup</mso:Document_x0020_Type>
+</mso:CustomDocumentProperties>
+    </xml>
+    <![endif]-->
+
+    <style type="text/css">
+        tr.rollUpStyle {
+            text-align: center;
+            background: gray;
+        }
+    </style>
+
+</head>
+
+<body>
+<script>
+
+	$includeLanguageScript(this.url, "~sitecollection/_catalogs/masterpage/Display Templates/Language Files/{Locale}/CustomStrings.js");
+	$includeScript(this.url, "~sitecollection/_catalogs/masterpage/Display Templates/Search/jquery-1.11.3.min.js");
+	
+	RegisterSod('jquery-1.11.3.min.js', Srch.U.replaceUrlTokens("~sitecollection/_catalogs/masterpage/Display Templates/Search/jquery-1.11.3.min.js"));	
+
+</script>
+
+    <div id="TaskRollup">
+
+        <!-- all javascript code is surrounded by unique comment tags with hashtag and underscore -->
+        <!-- inside here we are storing values of above fields in variables using the PROPERTY NAME -->
+        <!--#_
+
+  		    //*** General Variables ***//
+		    var encodedId = $htmlEncode(ctx.ClientControl.get_nextUniqueId() + "_2lines_");
+                    var linkURL = $getItemValue(ctx, "Link URL");
+                    linkURL.overrideValueRenderer($urlHtmlEncode);
+                    var iconURL = Srch.ContentBySearch.getIconSourceFromItem(ctx.CurrentItem);
+                    var line1 = $getItemValue(ctx, "Line 1");
+                    line1.overrideValueRenderer($contentLineText);
+                    var pictureLinkId = encodedId + "pictureLink";
+                    var pictureId = encodedId + "picture";
+                    var linkURL = $getItemValue(ctx, "Link URL");
+                    var title = $getItemValue(ctx, "Title");
+                    var status = $getItemValue(ctx, "Status");                    
+                    var drnumber = $getItemValue(ctx, "DR Number");
+		    var drlookup = $getItemValue(ctx, "DR Lookup");
+		    var filename = $getItemValue(ctx, "File Name"); 
+		    var Objection = $getItemValue(ctx, "Objection");                 
+                    var exconfidential = $getItemValue(ctx, "Externally Confidential");
+                    var objection = $getItemValue(ctx, "Objection");
+                    var inconfidential = $getItemValue(ctx, "Internally Confidential");
+		    var highlyconfidential = $getItemValue(ctx, "Highly Confidential");                    
+                    var sitetitle = $getItemValue(ctx, "Site Title");
+		    //var taskurl = $getItemValue(ctx, "Task URL");
+
+		    //*** Party Manipulation ***//
+
+		    //Party Name
+		    var intervenor = $getItemValue(ctx, "Intervenor");
+		    var strIntervenor = intervenor.toString();
+		    var intervenorST = strIntervenor.replace(/;/g,",  ");
+
+		    //Party Set
+		    var intervenorset = $getItemValue(ctx, "Intervenor Set");
+		    var strIntervenorset = intervenorset.toString();
+		    var intervenorsetST = strIntervenorset.replace(/;/g,",  ");
+
+		    //*** Data Request Topic Manipulation ***//
+
+		    var datareqtopic = ctx.CurrentItem.DataRequestTopicOWSCHCS;
+		    var datareqtopicST = datareqtopic.replace(/;/g,", ");
+
+		    //*** Dates Manipulation ***//
+
+		    //Date Recieved - Additional Code to Correct Date and Time Included Issue
+		    var datereceived = ctx.CurrentItem.DateReceivedOWSDATE;		  
+		    if (datereceived != null){var datereceivedSD = datereceived.split('T')[0];}
+		    var strDate = datereceivedSD.toString();
+		    var dtInclude = strDate.search(';');
+		    if (dtInclude != -1){
+			//alert("dtInclude " + dtInclude)
+			var index1 = datereceived.indexOf(';');
+		    	var index2 = datereceived.indexOf('T');
+		    	var datereceivedST = datereceived.slice(index1, index2);
+		    	var datereceivedSD = datereceivedST.replace(/;/g, '');
+		    };
+
+		    ///Date Response Due
+		    var dateresponsedue = ctx.CurrentItem.DateResponseDueforReviewOWSDATE;
+		    //var dateresponsedueSD = dateresponsedue.split('T')[0];
+		    if (dateresponsedue != null){var dateresponsedueSD = dateresponsedue.split('T')[0];}
+
+		    ///Review Date
+ 		    var reviewdate = ctx.CurrentItem.ReviewDateOWSDATE;
+		    //var reviewdateSD = reviewdate.split('T')[0];
+		    if (reviewdate != null){var reviewdateSD = reviewdate.split('T')[0];}
+
+		    ///File Date
+		    var fileddate = ctx.CurrentItem.FiledDateOWSDATE;
+		    if (fileddate != null){var fileddateSD = fileddate.split('T')[0];}
+		    var strDate2 = fileddateSD.toString();
+		    var dtInclude2 = strDate2.search(';');
+		    if (dtInclude2 != -1){
+			//alert("dtInclude 2c" + dtInclude2)
+			var index3 = fileddate.indexOf(';');
+		    	var index4 = fileddate.indexOf('T');
+		    	var fileddateST = fileddate.slice(index3, index4);
+		    	var fileddateSD = fileddateST.replace(/;/g, '');
+		    };
+
+		    //Due Date
+		    var duedate = ctx.CurrentItem.DueDateOWSDATE;
+		    if (duedate != null){var duedateSD = duedate.split('T')[0];}
+		    
+		    //*** People Picker Manipulation ***//
+			
+		    var regulatorypartner = ctx.CurrentItem.RegulatoryPartnerOWSUSER;		    
+		    if (regulatorypartner != null){var regulatorypartnerSN = regulatorypartner.split('|')[1];} 
+
+		    var responsepreparer = ctx.CurrentItem.ResponsePreparerOWSUSER;
+		    if (responsepreparer != null){var responsepreparerSN = responsepreparer.split('|')[1];} 
+
+		    var smeapprover = ctx.CurrentItem.SMEApproverOWSUser;
+		    if (smeapprover != null){var smeapproverSN = smeapprover.split('|')[1];}
+
+		    //*** Task URL ***//
+		    var taskurl = $getItemValue(ctx, "Task URL");
+		    var strURL = taskurl.toString();
+
+		    var strURL1 = strURL.replace('&lt;','<');		    	    
+		    var strURL2	= strURL1.replace('&quot;','"');
+		    var strURL3	= strURL2.replace('&quot;','"');		    
+		    var strURL4	= strURL3.replace('&gt;','>');
+		    var strURL5 = strURL4.replace('&lt;','<');	
+		    var strURL6 = strURL5.replace('&gt;','>');
+		    var strURL7 = strURL6.replace('a','a style="color: white;"');
+
+		    //alert("strURL7 = " + strURL7);    
+
+		    
+        </script>
+
+                _#-->
+
+        <div class="item-container">
+
+            <table>
+                <tr>
+
+                    <td colspan="15" width="100%" style="text-align:center; background:#F88007;">
+                        <a href=" _#=linkURL =#_ " style="color:white;"> _#= sitetitle =#_ | _#= filename =#_ | </a> _#= strURL7 =#_
+                    </td>
+
+                </tr>
+                <tr style="text-align:left;">
+
+                    <td rowspan="3" width="75px">_#= status =#_</td>
+                    <td rowspan="3" width="75px" style="text-align:center;"> _#= intervenorST =#_ </td>
+                    <td rowspan="3" width="75px" style="text-align:center;"> _#= intervenorsetST =#_ </td>
+                    <td rowspan="3" width="50px" style="text-align:center;"> _#= drnumber =#_ </td>
+
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= drlookup =#_ </td>
+                    <td rowspan="3" width="85px" style="text-align:center;"> _#= datareqtopicST =#_ </td>
+                    <td rowspan="3" width="85px" style="text-align:center;"> _#= datereceivedSD =#_ </td>                    
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= dateresponsedueSD =#_ </td>
+
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= duedateSD =#_ </td>
+		    <td rowspan="3" width="85px" style="text-align:center;"> _#= reviewdateSD =#_</td>                    
+                    <td rowspan="3" width="85px" style="text-align:center;"> _#= fileddateSD =#_ </td>
+		    <td rowspan="3" width="50px" style="text-align:center;"> _#= Objection =#_ </td>
+
+                </tr>
+
+		<tr><td>&nbsp;</td></tr>
+		<tr><td>&nbsp;</td></tr>
+
+		<tr style="text-align:center; border:0.5px solid #F88007;">
+
+		    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> 
+			_#= highlyconfidential =#_  </td>
+                    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= inconfidential =#_ </td>
+                    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= exconfidential =#_ </td>
+
+                </tr>
+
+		<tr><td>&nbsp;</td></tr>
+
+                <tr style="text-align:center; border:0.5px solid #F88007;">
+
+		    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> 
+			_#= regulatorypartnerSN =#_  </td>
+                    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= responsepreparerSN =#_ </td>
+                    <td rowspan="2" colspan="4" style="text-align:center; border:0.5px solid #F88007;"> _#= smeapproverSN =#_ </td>
+
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+            </table>
+
+        </div>
+    </div>
+</body>
+</html>

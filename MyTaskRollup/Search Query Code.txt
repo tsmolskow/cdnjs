@@ -1,0 +1,1 @@
+{searchTerms} (ContentType:"Rate Review" (RegulatoryPartnerOWSUSER:{User.Name} OR  SMEApproverOWSUSER:{User.Name} OR ResponsePreparerOWSUSER:{User.Name}) AND ( ReviewTaskStatusOWSCHCS<>Final AND ReviewTaskStatusOWSCHCS<>Served)) OR (ContentType:"Task” AssignedTo:{User.Name} AND PercentCompleteOWSNMBR<>1)
