@@ -1,0 +1,131 @@
+<style>
+
+.cell-margin {
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.tableCol-75 {
+padding-right: 15px; 
+Width: 75% !Important;
+}
+
+.tableCol-25 {
+Width: 25% !Important;
+}
+
+.tableCol-50 {
+Width: 50% !Important;
+}
+
+.ms-table .tableCol-50:first-child {
+padding-right: 15px;
+}
+
+.tableCol-33 {
+padding-left: 15px;
+Width: 33% !Important;
+}
+
+.ms-table .tableCol-33:first-child {
+padding-left: 0px;
+}
+
+.ms-webpartPage-root {
+border-spacing: 0;
+}
+
+.blue {
+background-color: #3F48CC;
+width: 2%;
+}
+
+.columns1 {
+width: 150px;
+border-style: solid;
+border-width: 1px;
+vertical-align: text-top;
+text-align: center;
+}
+
+.columns2 {
+background: #F88007;
+width: 50px;
+border-style: solid;
+border-width: 1px;
+vertical-align: bottom;
+text-align: center;
+}
+
+.data1 {
+text-align: right;
+width: 150px;
+}
+
+.grey {
+background-color: #C3C3C3;
+width: 2%;
+}
+
+.header1 {
+border-style: solid;
+border-width: 3px;
+}
+
+.header2 {
+border-style: solid;
+border-width: 1px;
+text-align: center;
+}
+
+.legend {
+text-align: center;
+height: 50px;
+}
+
+.1egendImage1 {
+border-radius: 50%;
+width = 15px;
+height = 15px;
+}
+
+.legendImage2 {
+width: 15px !important;
+height: 15px !important;
+}
+
+.legendImage3 {
+width: 15px !important;
+height: 100% !important;
+}
+
+.orange {
+background-color: #FF7F27;
+width: 2%;
+}
+
+.questions {
+text-align: center;
+}
+
+.questionstotal {
+text-align: left;
+}
+
+.risk {
+border-style: solid; 
+border-width: 1px;
+text-align: center;
+width: 17.5%;
+}
+
+.scale{
+text-align: right;
+}
+
+.title {
+font-weight: bold;
+text-align: center;
+}
+
+</style>
