@@ -104,12 +104,22 @@ background-color: #FF7F27;
 width: 2%;
 }
 
+.questionHeaders {
+text-align: center;
+font-weight: bold;
+}
+
 .questions {
 text-align: center;
 }
 
 .questionstotal {
 text-align: left;
+}
+
+.questionsTotalHeader {
+text-align: left;
+font-weight: bold;
 }
 
 .risk {

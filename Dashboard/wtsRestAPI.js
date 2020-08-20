@@ -6,8 +6,8 @@
 
 $(function () {    
     $.ajax({
-        url: "/sites/Regulatory/nebraska/2020NEGRR/_api/web/lists/GetByTitle('Contacts 2020 NEG RR')/items?"
-        + "$Select=ID,Witness,Attorney,Created,OData__x0031_st_x0020_Draft_x0020_Test,OData__x0032_nd_x0020_Draft_x0020_Test,"
+        url: "/sites/Regulatory/nebraska/2020NEGRR/_api/web/lists/GetByTitle('Contacts 2020 NEG RR')/items?"				
+		+ "$Select=ID,Witness,Attorney,Created,OData__x0031_st_x0020_Draft_x0020_Test,OData__x0032_nd_x0020_Draft_x0020_Test,"
         + "Final_x0020_Testimony_x0020_Due,RegulatoryPartner/Title,Completed1,Task_x0020_Complete,"
         + "RegulatoryPartner/ID,RegulatoryPartner/FirstName,RegulatoryPartner/LastName&$expand=RegulatoryPartner/ID&$orderby=ID asc",
         type: "GET",
@@ -16,9 +16,12 @@ $(function () {
         },
     }).success(function (data) {    
   
+      //alert("Test");
+  
       var d = new Date();
       var month = d.getMonth() + 1;
-      var date = month + "/" + d.getDate() + "/" + d.getFullYear() + "&nbsp;";      
+      var date = month + "/" + d.getDate() + "/" + d.getFullYear() + "&nbsp;"; 
+
       
       var listItemInfo = '';
        

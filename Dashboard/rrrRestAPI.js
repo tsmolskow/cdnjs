@@ -6,7 +6,7 @@
 
 $(function () {    
     $.ajax({
-        url: "/sites/regulatory3/testdashboard/_api/web/lists/GetByTitle('Regulatory Rate Review Status Update')/items?$ID=1",
+        url: "/sites/regulatory3/testdashboard/_api/web/lists/GetByTitle('Regulatory Rate Review Status Update')/items?$ID=27",
         type: "GET",
         headers: {
             "accept": "application/json;odata=verbose"
