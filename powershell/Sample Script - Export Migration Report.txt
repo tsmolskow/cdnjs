@@ -1,0 +1,6 @@
+$mypassword1 = ConvertTo-SecureString "password" -AsPlainText -Force
+$srcSite = Connect-Site -Url "https://m365b742352.sharepoint.com/MigrateSubsite" -Username "EYTestAdmin@M365B742352.onmicrosoft.com" -Password $mypassword1
+$mypassword2 = ConvertTo-SecureString "password" -AsPlainText -Force
+$dstSite = Connect-Site -Url "http://spfarm.eastus2.cloudapp.azure.com/sites/TestMigration1/TM1Subsite3" -Username "CONTOSO\migadmin" -Password $mypassword2
+$result = Copy-List -All -SourceSite $srcSite -DestinationSite $dstSite
+Export-Report $result -Path "C:\MigReport\CopyContentReports.xlsx"
