@@ -1,0 +1,16 @@
+#pnpLogonScript
+
+Import-Module Microsoft.Online.SharePoint.PowerShell -DisableNameChecking
+#Update-Module SharePointPnPPowerShellOnline
+
+cls
+
+$SiteURL="https://m365b742352-admin.sharepoint.com"
+$UserName="EYTestAdmin@M365B742352.onmicrosoft.com"
+$Password = "Cognizantadmin123!"
+ 
+$SecurePassword = ConvertTo-SecureString -String $Password -AsPlainText -Force
+$Cred = New-Object -TypeName System.Management.Automation.PSCredential -argumentlist $UserName, $SecurePassword
+ 
+#Connect to PNP Online
+Connect-PnPOnline -Url $SiteURL -Credentials $Cred
