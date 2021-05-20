@@ -36,6 +36,7 @@ Try {
     {
         #Get the List Name
         Write-host $List.Title
+        #Add Code to Fully Migrate List Here
     }
 }
 catch {

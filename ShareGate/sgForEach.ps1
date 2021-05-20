@@ -1,4 +1,6 @@
-﻿$csvFile = "C:\CSVfile.csv"
+﻿#sgForEach
+
+$csvFile = "C:\CSVfile.csv"
 
 $table = Import-Csv $csvFile -Delimiter ";"
 

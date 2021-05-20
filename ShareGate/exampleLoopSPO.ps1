@@ -53,3 +53,4 @@ Try {
 catch {
     write-host "Error: $($_.Exception.Message)" -foregroundcolor Red
 }
+© 2021 GitHub, Inc.
