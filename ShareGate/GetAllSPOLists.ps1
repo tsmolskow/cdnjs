@@ -1,34 +1,18 @@
 ﻿Param([string]$SiteUrl, $ID)
 
-#Get All SPO Lists
-#GetAllSPOLists.ps1
-#Works with - runChildScripts.ps1
-#Pre-Requirement: SP-SDK Must be Installed to the Local Server
-#Two Forms of Login - Prompt and Automatic 
-#Notes: First login may need to be by prompt, use LogonWithPrompt.ps1
+# Get All SPO Lists
+# GetAllSPOLists.ps1
+# Works with - runChildScripts.ps1
+# Pre-Requirement: SP-SDK Must be Installed to the Local Server
 
 
 ##Load SharePoint CSOM Assemblies
 Add-Type -Path "C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\16\ISAPI\Microsoft.SharePoint.Client.dll"
 Add-Type -Path "C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\16\ISAPI\Microsoft.SharePoint.Client.Runtime.dll"
- 
-#Cls
-
-#Param([string]$SiteUrl)
-
-##Set Date Time Variable
-$dt = Get-Date 
-$mth = $dt.Month
-if($mth -eq 1 -or $mth -eq 2 -or $mth -eq 3 -or $mth -eq 4 -or $mth -eq  5 -or $mth -eq 6 -or $mth -eq 7 -or $mth -eq 8 -or $mth -eq 9)
-{
-   $mth = "0"+$mth;
-}
-$dte = $dt.Day.ToString() + $mth.ToString() + $dt.Year.ToString() + $dt.Hour.ToString() + $dt.Minute.ToString() +  $dt.Second.ToString();
-#Write-Host "date " $dte #//For Testing Only
 
 ##Config Variable
 #$SiteURL = "https://eyus.sharepoint.com/sites/eyimdUSA-0001711-MM"
-$CSVPath = "C:\Test\" + $ID + "listInventory" + $dte + ".csv"
+$CSVPath = "C:\Test\" + $ID + "listInventory"  + "_dt" + $(get-date -f dd_MM_yyyy_HH_mm) + ".csv"
  
 ##Setup Credentials to Connect with Prompt
 #$Cred = Get-Credential
@@ -44,6 +28,7 @@ $Cred = New-Object -TypeName System.Management.Automation.PSCredential -argument
 Connect-PnPOnline -Url $SiteURL -Credentials $Cred
  
 Try {
+    
     ##Setup the context
     $Ctx = New-Object Microsoft.SharePoint.Client.ClientContext($SiteURL)
     $Ctx.Credentials = $Credentials
@@ -56,13 +41,15 @@ Try {
     $Ctx.ExecuteQuery()
  
     $ListDataCollection = @()
+
     ##Get List details
     ForEach ($List in $Lists)
     {
+        
         $ListData = New-Object PSObject -Property ([Ordered] @{
         ListName = $List.Title
         #Description = $List.Description
-        #ItemCount = $List.ItemCount
+        ItemCount = $List.ItemCount
         #BaseTemplateID = $List.BaseTemplate
         #Created = $List.Created 
         #BaseType = $List.BaseType
@@ -75,13 +62,18 @@ Try {
         #ParentWebUrl = $List.ParentWebUrl 
         #VersioningEnabled = $List.EnableVersioning    
         })
+
         $ListDataCollection += $ListData
     }
+
     $ListDataCollection
  
     ##Export List data to CSV
     $ListDataCollection | Export-Csv -Path $CSVPath -Force -NoTypeInformation
     Write-host -f Green "List " $SiteUrl " Exported to CSV! GetAllSPOLists.ps1"
+
 } Catch {
+
     write-host -f Red "Error:" $_.Exception.Message
+
 }
