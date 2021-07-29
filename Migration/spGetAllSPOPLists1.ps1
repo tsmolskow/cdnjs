@@ -1,0 +1,95 @@
+﻿# Get All SP On_Premise Lists
+# spGetAllSPOPLists.ps1
+# As of: 6/30/2021
+# Developer: Tom Molskow, Cognizant
+
+cls
+
+Add-PSSnapin Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue
+ 
+# File Output Path - Modify This Path Variable to Reflect the Local Environment
+$ReportPath ="C:\Test\Report\"
+
+# CSV List Input File - Modify This Path Variable to Reflect the Local Environment
+# !!!The 'spopSites.CSV' File Must Exist Prior to Running!!!
+$csvFile = "C:\Test\spopSitesUS1.csv" 
+
+# Table Variable
+$table = Import-Csv $csvFile -Delimiter ";"
+ 
+# Main Script
+    
+foreach ($row in $table)
+{
+
+    try{
+    
+        $srcList = $row.DestinationSite
+        $ID = $row.Id
+        Write-Host "Site in Table " $row.DestinationSite
+
+        # CSV Inventory Output File - This File Will be Created Dynamically
+        #$ReportOutput = $ReportPath + $row.Id + "spopInventoryD"  + "_dt" + $(get-date -f dd_MM_yyyy_HH_mm) + ".csv" 
+        $ReportOutput = $ReportPath + $ID + "spopInventoryD.csv" 
+
+        # Get the site collection   
+        $SiteURL = $srcList
+        $Site = Get-SPSite $SiteURL
+  
+        $ResultData = @()
+
+      Foreach($web in $Site.AllWebs)
+      {
+    
+        try
+        {
+        
+        Write-host -f Yellow "Processing Site: "$Web.URL
+  
+        # Get all lists - Exclude Hidden System lists
+        $ListCollection = $web.lists
+        # Write-Host "List Collection " $ListCollection # For Testing Only
+ 
+            # Iterate through All lists and Libraries
+            ForEach ($List in $ListCollection)
+            {
+                    $Data = New-Object PSObject -Property ([Ordered] @{
+
+                    'ListName' = $List.Title
+                    'Item Count' = $List.ItemCount # Optional Data
+                    #'Site Title' = $Web.Title
+                    #'Site URL' = $Web.URL
+                    #'Created By' = $List.Author.DisplayName # Optional Data
+                    #'Last Modified' = $List.LastItemModifiedDate.ToString(); # Optional Data
+                    #'List URL' = "$($Web.Url)/$($List.RootFolder.Url)" # Optional Data
+
+                    })
+
+                    $ResultData += $Data
+            } 
+        }
+
+        catch
+        {
+            $ErrorMessage = $_.Exception.Message
+            Write-Host "Error has occurred:" $ErrorMessage
+        }
+
+      }
+
+      # Export the data to CSV
+      If($List.Title -ne "Content type publishing error log" -and $List.Title -ne "Workflows"){
+      $ResultData | Export-Csv $ReportOutput -Force -NoTypeInformation
+      }
+    
+    } catch {
+
+        $ErrorMessage = $_.Exception.Message
+        Write-Host "Error has occurred:" $ErrorMessage
+    }
+    
+}
+ 
+Write-host -f Green "Report Generated Successfully at : "$ReportOutput
+ 
+ 

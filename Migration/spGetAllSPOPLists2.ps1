@@ -18,31 +18,24 @@ $spousername = "ey\P.AUOPRTMIGP.10"
 $spopassword = "cL95H@urF7~Vk3%"
 $sposecurepassword = $spopassword | ConvertTo-SecureString -AsPlainText -Force
 
-## Site Information
-$SiteURL = "https://us.tdm.ey.net/sites/0899cb2fb0be428aaefafd26ad7293bc"
-
-## Setup the context
+#Setup the context
 $Ctx = Get-SPContext $SiteURL $spousername $sposecurepassword
+  
 
-## Get the Web
-#$Web = $Ctx.Web
-#$Ctx.Load($Web)
-#$Ctx.ExecuteQuery()
-
-## Add-PSSnapin Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue
+Add-PSSnapin Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue
  
 ## File Output Path - Modify This Path Variable to Reflect the Local Environment
 $ReportPath ="C:\Test\Report\"
 
 ## CSV List Input File - Modify This Path Variable to Reflect the Local Environment
 ## !!!The 'spopSites.CSV' File Must Exist Prior to Running!!!
-$csvFile = "C:\Test\spopSitesUS1.csv" 
+#$csvFile = "C:\Test\spopSitesUS1.csv" 
 
 ## Table Variable
-$table = Import-Csv $csvFile -Delimiter ";"
+#$table = Import-Csv $csvFile -Delimiter ";"
  
 ## --- Main Script ---##
-
+    
 foreach ($row in $table)
 {
 
@@ -52,20 +45,14 @@ foreach ($row in $table)
         $ID = $row.Id
         Write-Host "Site in Table " $row.DestinationSite
 
-        ## CSV Inventory Output File - This File Will be Created Dynamically
+        # CSV Inventory Output File - This File Will be Created Dynamically
         #$ReportOutput = $ReportPath + $row.Id + "spopInventoryD"  + "_dt" + $(get-date -f dd_MM_yyyy_HH_mm) + ".csv" 
         $ReportOutput = $ReportPath + $ID + "spopInventoryD.csv" 
 
-        ## Get the Web
-        $Web = $Ctx.Web
-        $Ctx.Load($Web)
-        $Ctx.ExecuteQuery()
-
-        ## Get the site collection   
+        # Get the site collection   
         $SiteURL = $srcList
-        #$Site = Get-SPSite $SiteURL
-        #$Site = $Web
-
+        $Site = Get-SPSite $SiteURL
+ 
         $ResultData = @()
 
       Foreach($web in $Site.AllWebs)
@@ -76,11 +63,11 @@ foreach ($row in $table)
         
         Write-host -f Yellow "Processing Site: "$Web.URL
   
-        ## Get all lists - Exclude Hidden System lists
+        # Get all lists - Exclude Hidden System lists
         $ListCollection = $web.lists
-        #Write-Host "List Collection " $ListCollection # For Testing Only
+        # Write-Host "List Collection " $ListCollection # For Testing Only
  
-            ## Iterate through All lists and Libraries
+            # Iterate through All lists and Libraries
             ForEach ($List in $ListCollection)
             {
                     $Data = New-Object PSObject -Property @{
@@ -108,7 +95,7 @@ foreach ($row in $table)
 
       }
 
-      ## Export the data to CSV
+      # Export the data to CSV
       $ResultData | Export-Csv $ReportOutput -NoTypeInformation
     
     } catch {
@@ -118,11 +105,10 @@ foreach ($row in $table)
     }
     
 }
-  
  
 Write-host -f Green "Report Generated Successfully at : "$ReportOutput
  
-## Fetch SharePoint Context
+#Fetch SharePoint Context
 function Get-SPContext {
     Param(
         [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $source,                
@@ -131,7 +117,7 @@ function Get-SPContext {
     )
     try {
         $context = $null
-        ## Context for Online sites
+        #Context for Online sites
         if($source.ToLower().contains("sharepoint.com") -or $source.ToLower().contains("sites.ey.com")) {
             #$credentials = New-Object System.Management.Automation.PSCredential($userId,$securePassword)            
             #Connect-PnPOnline -Url $source -Credentials $credentials
@@ -145,7 +131,7 @@ function Get-SPContext {
             })
         }
         else {
-            ## Context for OnPrem sites
+            #Context for OnPrem sites
             $context = New-Object Microsoft.SharePoint.Client.ClientContext($source)
             $context.Credentials = New-Object System.Net.NetworkCredential($userId, $securePassword)
             $context.add_ExecutingWebRequest({

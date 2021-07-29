@@ -46,111 +46,93 @@ $table = Import-Csv $csvFile -Delimiter ","
 foreach ($row in $table)
 {
 
-    # Content Type
-    $typeOfContent = $row.TypeOfContent
-    Write-Host "Type of Content: " $typeOfContent | Out-File -FilePath $reportFile -Append
-
     try{
 
-        if($row.TypeOfContent -eq "Site"){
-
-            Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile
+    Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile
     
-            # Site Name
-            $siteName = $row.SiteName
-            Write-Host "Site Name: " $siteName | Out-File -FilePath $reportFile -Append
+    # Site Name
+    $siteName = $row.SiteName
+    Write-Host "Site Name: " $siteName | Out-File -FilePath $reportFile -Append
 
-            #Content Type
-            #$typeOfContent = $row.TypeOfContent
-            #Write-Host "Type of Content: " $typeOfContent | Out-File -FilePath $reportFile -Append
+    # Site URL
+    $siteURL = $row.SourceURL 
+    Write-Host "Site URL: " $siteURL | Out-File -FilePath $reportFile -Append
 
-            # Site URL
-            $siteURL = $row.SourceURL 
-            Write-Host "Site URL: " $siteURL | Out-File -FilePath $reportFile -Append
+    # Site Inheritance
+    $groupInherit = $row.Inheritance
+    Write-Host "Inheritance: " $groupInherit | Out-File -FilePath $reportFile -Append
 
-            # Site Inheritance
-            $groupInherit = $row.Inheritance
-            Write-Host "Inheritance: " $groupInherit | Out-File -FilePath $reportFile -Append
+    # User Group
+    $listGroup = $row.UserGroup
+    Write-Host "User Group: " $listGroup | Out-File -FilePath $reportFile -Append
 
-            # User Group
-            $listGroup = $row.UserGroup
-            Write-Host "User Group: " $listGroup | Out-File -FilePath $reportFile -Append
+    # Account Name
+    $accountName = $row.Accountname
+    Write-Host "Account Name: " $accountName | Out-File -FilePath $reportFile -Append
 
-            # Account Name
-            $accountName = $row.Accountname
-            Write-Host "Account Name: " $accountName | Out-File -FilePath $reportFile -Append
+    # Permissions
+    $accountPermissions = ($row.ContentPermissions).Replace(";","")
+    Write-Host "Permissions: " $accountPermissions | Out-File -FilePath $reportFile -Append
 
-            # Permissions
-            $accountPermissions = ($row.ContentPermissions).Replace(";","")
-            Write-Host "Permissions: " $accountPermissions | Out-File -FilePath $reportFile -Append
-
-            Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile -Append
+    Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile -Append
    
+    ## Remove Permissions ##
 
-            ## Remove Site Read Permissions ##
+    $web = get-spweb $siteURL
+    Write-Host "Web: " $web | Out-File -FilePath $reportFile -Append
 
-            $web = get-spweb $siteURL
-            Write-Host "Web: " $web | Out-File -FilePath $reportFile -Append
+    $group = $web.SiteGroups[$accountName]
+    Write-Host "group: " $group | Out-File -FilePath $reportFile -Append
 
-            $group = $web.SiteGroups[$accountName]
-            Write-Host "group: " $group | Out-File -FilePath $reportFile -Append
+    $ra = $group.ParentWeb.RoleAssignments.GetAssignmentByPrincipal($group)
+    Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
 
-            $ra = $group.ParentWeb.RoleAssignments.GetAssignmentByPrincipal($group)
-            Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
+    $rd = $group.ParentWeb.RoleDefinitions["Read"]
+    Write-Host "rd: " $rd | Out-File -FilePath $reportFile -Append
 
-            $rd = $group.ParentWeb.RoleDefinitions["Read"]
-            Write-Host "rd: " $rd | Out-File -FilePath $reportFile -Append
+    $ra.RoleDefinitionBindings.Remove($rd)
+    Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
 
-            $ra.RoleDefinitionBindings.Remove($rd)
-            Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
+    $ra.Update()
+    $group.Update()
+    $web.Dispose()
 
-            $ra.Update()
-            $group.Update()
-            $web.Dispose()
-
-            Write-Host "Permissions Removed" | Out-File -FilePath $reportFile -Append
-            Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile -Append
+    Write-Host "Permissions Removed" | Out-File -FilePath $reportFile -Append
+    Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile -Append
    
-            
-            ## Add Site Read Permissions ##
+    ## Add Permissions ##
 
-            $web = get-spweb $siteURL
-            #Write-Host "Web: " $web #For Testing Only
-            Write-Host "Web: " $web | Out-File -FilePath $reportFile -Append
+    $web = get-spweb $siteURL
+    #Write-Host "Web: " $web #For Testing Only
+    Write-Host "Web: " $web | Out-File -FilePath $reportFile -Append
 
-            $group = $web.SiteGroups[$accountName]
-            #Write-Host "group: " $group #For Testing Only
-            Write-Host "group: " $group | Out-File -FilePath $reportFile -Append
+    $group = $web.SiteGroups[$accountName]
+    #Write-Host "group: " $group #For Testing Only
+    Write-Host "group: " $group | Out-File -FilePath $reportFile -Append
 
-            $ra = $group.ParentWeb.RoleAssignments.GetAssignmentByPrincipal($group)
-            #Write-Host "ra: " $ra #For Testing Only
-            Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
+    $ra = $group.ParentWeb.RoleAssignments.GetAssignmentByPrincipal($group)
+    #Write-Host "ra: " $ra #For Testing Only
+    Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
 
-            $rd = $group.ParentWeb.RoleDefinitions[$accountPermissions]
-            #Write-Host "rd: " $rd #For Testing Only
-            Write-Host "rd: " $rd | Out-File -FilePath $reportFile -Append
+    $rd = $group.ParentWeb.RoleDefinitions[$accountPermissions]
+    #Write-Host "rd: " $rd #For Testing Only
+    Write-Host "rd: " $rd | Out-File -FilePath $reportFile -Append
 
-            $ra.RoleDefinitionBindings.Add($rd)
-            #Write-Host "ra: " $ra #For Testing Only
-            Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
+    $ra.RoleDefinitionBindings.Add($rd)
+    #Write-Host "ra: " $ra #For Testing Only
+    Write-Host "ra: " $ra  | Out-File -FilePath $reportFile -Append
 
-            $ra.Update()
-            $group.Update()
-            $web.Dispose()
+    $ra.Update()
+    $group.Update()
+    $web.Dispose()
 
-            Write-Host "Permissions Added" | Out-File -FilePath $reportFile -Append
-            Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile -Append
-
-        } elseif($row.TypeOfContent -eq "List/Library"){
-
-            Write-Host "This is a list, not a site" | Out-File -FilePath $reportFile -Append
-
-        }
+    Write-Host "Permissions Added" | Out-File -FilePath $reportFile -Append
+    Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile -Append
 
     } catch {
 
-        $ErrorMessage = $_.Exception.Message
-        Write-Host "Error has occurred:" $ErrorMessage
+    $ErrorMessage = $_.Exception.Message
+    Write-Host "Error has occurred:" $ErrorMessage
 
     }
        

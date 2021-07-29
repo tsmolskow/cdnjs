@@ -13,7 +13,7 @@ Add-PSSnapin Microsoft.SharePoint.PowerShell -ErrorAction Continue
 $filePath ="C:\Test\"
 
 # Unlock the Site Collection
-Set-SPSite -Identity "https://eyonespace.ey.com/Sites/536a5ebeec1044b0b8accf5c44547c41" -LockState "Unlock"
+Set-SPSite -Identity "https://tdm.ey.net/sites/e34b2256b3844f8a825025168f9dbcfa" -LockState "Unlock"
 #Set-SPSite -Identity "https://eyonespace.ey.com/Sites/05969df9534d42b4a4781179aaeabed1" -LockState "Unlock"
 #Set-SPSite -Identity "https://eyonespace.ey.com/Sites/433a9cbc6bdb4f2994a8a2ffcde3b413" -LockState "Unlock"
 #Set-SPSite -Identity "https://eyonespace.ey.com/Sites/6ed9844b2602420d930486db9158fc84" -LockState "Unlock"
@@ -23,7 +23,7 @@ Set-SPSite -Identity "https://eyonespace.ey.com/Sites/536a5ebeec1044b0b8accf5c44
 #Set-SPSite -Identity "https://tdm.ey.net/sites/570fcbe11bae425aa98d9cb810e64ee2" -LockState "Unlock"
 
 # Set SiteCollection URL
-$siteURL = "https://eyonespace.ey.com/Sites/536a5ebeec1044b0b8accf5c44547c41"
+$siteURL = "https://tdm.ey.net/sites/e34b2256b3844f8a825025168f9dbcfa"
 #$siteURL ="https://eyonespace.ey.com/Sites/05969df9534d42b4a4781179aaeabed1"
 #$siteURL = "https://eyonespace.ey.com/Sites/433a9cbc6bdb4f2994a8a2ffcde3b413"
 #$siteURL = "https://eyonespace.ey.com/Sites/6ed9844b2602420d930486db9158fc84"
@@ -33,7 +33,7 @@ $siteURL = "https://eyonespace.ey.com/Sites/536a5ebeec1044b0b8accf5c44547c41"
 #$siteURL = "https://tdm.ey.net/sites/570fcbe11bae425aa98d9cb810e64ee2"
 
 # Input File Name - Modify This File Name to Reflect the CSV File Used
-$inputFile = "eyimdDNK-0027220-MM_20210607083048.csv"
+$inputFile = "eyimdROU-0027447-MM_20210601113316.csv"
 #$inputFile = "eyimdDNK-0027535-MM_20210607083405.csv"
 #$inputFile = "eyimdDNK-0027877-MM_20210607083239.csv"
 #$inputFile = "eyimdDNK-0030285-MM_20210607084425.csv"
@@ -232,11 +232,18 @@ foreach ($row in $table)
 
             ## Remove List Permissions ##
 
-            $PermissionLevel = "Read"
+            #$PermissionLevel = "Read"
+            $PermissionLevel = "Contribute"
             Write-Host "Permission Level: " $PermissionLevel | Out-File -FilePath $reportFile -Append
  
             function Remove-PermissionFromList($WebUrl, $ListName, $GroupName, $PermissionLevel)
             {
+                #if($row.ContentPermissions -ne "Read;"){
+                if($row.ContentPermissions -ne "Contribute;"){
+
+                Write-Host "row.ContentPermissions: " $row.ContentPermissions | Out-File -FilePath $reportFile -Append
+                Write-Host "Permission Level: " $PermissionLevel | Out-File -FilePath $reportFile -Append
+                
                 #Get Web and List objects
                 $Web = Get-SPWeb -Identity $WebUrl
                 Write-Host "Web: " $Web  | Out-File -FilePath $reportFile -Append
@@ -260,7 +267,7 @@ foreach ($row in $table)
                     {
                         #For User, use: $User = $web.EnsureUser($UserAccount)
                         #To Remove All permissions of the group, use: 
-                        $list.RoleAssignments.Remove($group)    
+                        #$list.RoleAssignments.Remove($group)    
  
                             #If group doesn't has access to the given list it triggers an error
                             try
@@ -273,7 +280,7 @@ foreach ($row in $table)
                                 $role = $web.RoleDefinitions[$PermissionLevel]
                                 Write-Host "role: " $role  | Out-File -FilePath $reportFile -Append
 
-                                $assignment = $list.RoleAssignments.GetAssignmentByPrincipal($group)
+                                $assignment = $list.RoleAssignments.GetAssignmentByPrincipal($group) #This is the 'error' line
                                 Write-Host "assignment: " $assignment  | Out-File -FilePath $reportFile -Append
 
                                 #Remove the permissions
@@ -307,10 +314,13 @@ foreach ($row in $table)
                 }
 
                 $web.Dispose()
+
+                }
             } 
 
             # Call the Function
-            Remove-PermissionFromList $WebUrl $ListName $UserAccount "Read" 
+            #Remove-PermissionFromList $WebUrl $ListName $UserAccount "Read" 
+            Remove-PermissionFromList $WebUrl $ListName $UserAccount "Contribute" 
             
             Write-Host "List Permissions Removed" | Out-File -FilePath $reportFile -Append
             Write-Host "--------------------------------------------------------------" | Out-File -FilePath $reportFile -Append 

@@ -1,9 +1,10 @@
 ﻿## Validate All SPO Lists
-## spValAllSPOLists5.ps1
+## spValAllSPOLists1.ps1
 ## Pre-Install Requirement: SP-SDK Must be Installed to the Local Server
-## As of: 7/27/2021
+## As of: 7/15/2021
 ## Developer: Tom Molskow, Cognizant
-
+## Sub-Sites Must be Listed in the $csvFile!!!
+## https://social.technet.microsoft.com/Forums/ie/en-US/5969c7cd-f67c-440e-bae1-b49fc4b6bf34/sharepoint-groups-and-their-permissions-at-list-using-powershell-csom
 
 ## Load SharePoint CSOM Assemblies
 Add-Type -Path "C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\16\ISAPI\Microsoft.SharePoint.Client.dll"
@@ -13,82 +14,37 @@ cls
 
 ## Login Information
 #$spousername = "ey\P.AUOPRTMIGP.10@ey.com"
-#$spousername = "P.AUOPRTMIGP.10@ey.com"
-#$spousername = "ey\P.AUOPRTMIGP.10"
-#$spousername = "P.AUOPRTMIGP.10"
-#$spopassword = "cL95H@urF7~Vk3%"
-#$spousername = "P.AUSPORTMIGP.10@ey.com"
-#$spousername = "P.AUSPORTMIGP.10"
-#$spopassword = "QReJ+MMvJ+Vnaba1"
-$spousername = "Z.AUOPRTMIGP.10"
-$spopassword = "xSTQGPNkA62)0I#"
-
+$spousername = "ey\P.AUOPRTMIGP.10"
+$spopassword = "cL95H@urF7~Vk3%"
 $sposecurepassword = $spopassword | ConvertTo-SecureString -AsPlainText -Force
 
 ## Site Information
-$SiteURL1 = "https://us.eyonespace.ey.com/sites/1a519d8a7adc4229aa8819845cc10309"
+$SiteURL = "https://us.tdm.ey.net/sites/0899cb2fb0be428aaefafd26ad7293bc"
 
-
-## Fetch SharePoint Context
-function Get-SPContext {
-    Param(
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $source,                
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $userId,
-        [Parameter(Mandatory = $true)] $securePassword
-    )
-    try {
-        $context = $null
-        ## Context for Online sites
-        if($source.ToLower().contains("sharepoint.com") -or $source.ToLower().contains("sites.ey.com")) {
-            #$credentials = New-Object System.Management.Automation.PSCredential($userId,$securePassword)            
-            #Connect-PnPOnline -Url $source -Credentials $credentials
-            #$context = Get-PnPContext
-            $context = New-Object Microsoft.SharePoint.Client.ClientContext($source)  
-            $context.Credentials = New-Object Microsoft.SharePoint.Client.SharePointOnlineCredentials($userId,$securePassword)                        
-            $context.add_ExecutingWebRequest({
-                param($objSender, $eventArgs)
-                $request = $eventArgs.WebRequestExecutor.WebRequest
-                $request.UserAgent = "NONISV|Cognizant|CTSRemediation/1.0"
-            })
-        }
-        else {
-            ## Context for OnPrem sites
-            $context = New-Object Microsoft.SharePoint.Client.ClientContext($source)
-            $context.Credentials = New-Object System.Net.NetworkCredential($userId, $securePassword)
-            $context.add_ExecutingWebRequest({
-                param($objSender, $eventArgs)
-                $eventArgs.WebRequestExecutor.WebRequest.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f")
-            })
-        }
-        return $context
-    }
-    catch {
-        Write-Host "Failed in executing Get-SPContext method: $($_.Exception.Message) `n"  -ForegroundColor Red
-        throw
-    }
-}
-
-
-## Setup the context
-$Ctx = Get-SPContext $SiteURL1 $spousername $sposecurepassword
+#Setup the context
+$Ctx = Get-SPContext $SiteURL $spousername $sposecurepassword
 
 ## File Output Path - Modify This Path Variable to Reflect the Local Environment
 $ReportPath ="C:\Test\Report\"
 
 ## Get spoSites File
-$csvFile = "C:\Test\spopSites3.csv" 
+$csvFile = "C:\Test\spoSitesUS1.csv"
 $table = Import-Csv $csvFile -Delimiter ";"
 
 foreach ($row in $table)
 {
 
-$SiteUrl = $row.DestinationSite
+$SiteUrl = $row.SourceSite
 $ID = $row.Id
 
 ## CSV Inventory Output File - This File Will be Created Dynamically
-$CSVPath = $ReportPath + $ID + "spopValidationS" + "_dt" + $(get-date -f dd_MM_yyyy_HH_mm_ss) + ".csv"
+$CSVPath = $ReportPath + $ID + "spoInventoryS" + "_dt" + $(get-date -f dd_MM_yyyy_HH_mm_ss) + ".csv"
  
-    #Try {  
+    #Try {
+    
+        ## Setup the context
+        #$Ctx = New-Object Microsoft.SharePoint.Client.ClientContext($SiteURL)
+        #$Ctx.Credentials = $Credentials
     
         ## Get Lists from the site
         $Web = $Ctx.Web
@@ -141,7 +97,8 @@ $CSVPath = $ReportPath + $ID + "spopValidationS" + "_dt" + $(get-date -f dd_MM_y
             #VersioningEnabled = $List.EnableVersioning ## Additional Optional Fields
             #Groups = $List.RoleAssignments.Groups
              Group = $RoleAssignment.Member.Title
-             Permission = $RoleDefinition.Name  
+             Permission = $RoleDefinition.Name        
+
                    
             })
 
@@ -155,7 +112,7 @@ $CSVPath = $ReportPath + $ID + "spopValidationS" + "_dt" + $(get-date -f dd_MM_y
  
         ## Export List data to CSV
         $ListDataCollection | Export-Csv -Path $CSVPath -Force -NoTypeInformation
-        Write-host -f Green "spValAllSPOLists5.ps1: List Inventory - " $SiteUrl "Exported to CSV!" $CSVPath
+        Write-host -f Green "List " $SiteUrl " Exported to CSV! GetAllSPOLists.ps1"
 
     #} Catch {
 
@@ -165,3 +122,41 @@ $CSVPath = $ReportPath + $ID + "spopValidationS" + "_dt" + $(get-date -f dd_MM_y
     #}
 }
 
+#Fetch SharePoint Context
+function Get-SPContext {
+    Param(
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $source,                
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $userId,
+        [Parameter(Mandatory = $true)] $securePassword
+    )
+    try {
+        $context = $null
+        #Context for Online sites
+        if($source.ToLower().contains("sharepoint.com") -or $source.ToLower().contains("sites.ey.com")) {
+            #$credentials = New-Object System.Management.Automation.PSCredential($userId,$securePassword)            
+            #Connect-PnPOnline -Url $source -Credentials $credentials
+            #$context = Get-PnPContext
+            $context = New-Object Microsoft.SharePoint.Client.ClientContext($source)  
+            $context.Credentials = New-Object Microsoft.SharePoint.Client.SharePointOnlineCredentials($userId,$securePassword)                        
+            $context.add_ExecutingWebRequest({
+                param($objSender, $eventArgs)
+                $request = $eventArgs.WebRequestExecutor.WebRequest
+                $request.UserAgent = "NONISV|Cognizant|CTSRemediation/1.0"
+            })
+        }
+        else {
+            #Context for OnPrem sites
+            $context = New-Object Microsoft.SharePoint.Client.ClientContext($source)
+            $context.Credentials = New-Object System.Net.NetworkCredential($userId, $securePassword)
+            $context.add_ExecutingWebRequest({
+                param($objSender, $eventArgs)
+                $eventArgs.WebRequestExecutor.WebRequest.Headers.Add("X-FORMS_BASED_AUTH_ACCEPTED", "f")
+            })
+        }
+        return $context
+    }
+    catch {
+        Write-Host "Failed in executing Get-SPContext method: $($_.Exception.Message) `n"  -ForegroundColor Red
+        throw
+    }
+}
