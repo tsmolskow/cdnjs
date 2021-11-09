@@ -1,4 +1,17 @@
-﻿## Load SharePoint CSOM Assemblies
+﻿
+param(
+[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $inputCSVPermissions,               
+[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $inputCSVURLs,    
+[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $spousername,  
+[Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][String] $spopassword 
+)
+
+## Set All Permissions
+## PermissionMigration6.ps1
+## As of: 9/22/2021
+## Developer: Tom Molskow, Cognizant
+
+## Load SharePoint CSOM Assemblies
 
 ## Load SharePoint CSOM Assemblies
 Add-Type -Path "C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\16\ISAPI\Microsoft.SharePoint.Client.dll"
@@ -30,16 +43,17 @@ $dt = Get-Date
 
 # DMZ
 #$spousername = "Z.AUOPRTMIGP.10@ey.com"
-$spousername = "Z.AUOPRTMIGP.10"
-$spopassword = "xSTQGPNkA62)0I#"
+#$spousername = "Z.AUOPRTMIGP.10"
+#$spopassword = "xSTQGPNkA62)0I#"
 
 ## Input Path
 $filePath = "c:\Test\Stage\"
 #$filePath = "C:\0-install\CTS\projects\CTS-Mig-090-PostMigration\"
 
 ## Input File
-$inputCSV = $filePath + "eyimdUSA-2021561-MC_20211020042932.csv"
-$siteURLSfile = Join-Path $filePath "inputFile_URLS15.csv"
+#$inputCSVPermissions = "eyimdUSA-0041792-MM_20210816083602-4.csv"
+#$inputCSV = $filePath + "TestInput1.csv"
+$inputCSV = $filePath + $inputCSVPermissions
 
 $sposecurepassword = $spopassword | ConvertTo-SecureString -AsPlainText -Force
 $executingScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
@@ -84,7 +98,8 @@ $OutputLogFilename =$executingScriptDirectory +"\Logs\" + "$((Get-Date).ToString
 
 #Input file of the Site URLs - Source URL and Target URL
 #$siteURLSfile = Join-Path $executingScriptDirectory "inputFile_URLS1.csv"
-#$siteURLSfile = Join-Path $filePath "inputFile_URLS6.csv"
+#$inputCSVURLs = "inputFile_URLS1.csv"
+$siteURLSfile = Join-Path $filePath $inputCSVURLs
 $intCntSite = 0
 $csvsiteURLs = Import-csv $siteURLSfile 
 $cntSites = $csvsiteURLs.Count
@@ -188,7 +203,7 @@ Try{
         $Ctx = Get-SPContext $SiteURL $spousername $sposecurepassword
   
         #Get the Web
-        $Web = $Ctx.Web
+        $Web = $Ctx.Web 
         #$Web = $Ctx.Site
         $Ctx.Load($Web)
         $Ctx.ExecuteQuery()
@@ -232,7 +247,6 @@ Catch{
   }
 
 }
-
 
 
 ## Function to Get Permissions Applied on a particular Object, such as: Web, List or Item

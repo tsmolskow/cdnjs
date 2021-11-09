@@ -1,0 +1,20 @@
+
+GAC    Version        Location                                                                                         
+---    -------        --------                                                                                         
+True   v4.0.30319     C:\Windows\Microsoft.Net\assembly\GAC_MSIL\Microsoft.SharePoint.Client\v4.0_16.0.0.0__71e9bce1...
+True   v4.0.30319     C:\Windows\Microsoft.Net\assembly\GAC_MSIL\Microsoft.SharePoint.Client.Runtime\v4.0_16.0.0.0__...
+Transcript started, output file is C:\Test\Logs\PE_Logs9_11_2021_16_32_51.csv
+Fetching information for Site :  https://us.eyonespace.ey.com/Sites/6196319c5ce04ecfb48b371901c3e589
+Getting Site Collection Administrators...
+Getting the Permissions of Web  https://us.eyonespace.ey.com/Sites/6196319c5ce04ecfb48b371901c3e589 ...
+	 Getting the Permissions of Lists and Libraries in  https://us.eyonespace.ey.com/Sites/6196319c5ce04ecfb48b371901c3e589 ...SScript Execution Time :  11/9/2021 4:32:51 PM  -  11/9/2021 4:36:19 PM
+Script Execution Completed
+Transcript stopped, output file is C:\Test\Logs\PE_Logs9_11_2021_16_32_51.csv
+
+
+ries in  https://us.eyonespace.ey.com/Sites/aeaddf764fb9484bb0b617a740bbafc3/4ce65edd416e4e80b2d11b01675fd62a ...
+Script Execution Time :  11/9/2021 4:30:21 PM  -  11/9/2021 4:36:22 PM
+Script Execution Completed
+Transcript stopped, output file is C:\Test\Logs\PE_Logs9_11_2021_16_30_20.csv
+
+

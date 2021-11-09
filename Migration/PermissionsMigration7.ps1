@@ -1,4 +1,6 @@
-﻿## Load SharePoint CSOM Assemblies
+﻿## Parameters
+
+## Load SharePoint CSOM Assemblies
 
 ## Load SharePoint CSOM Assemblies
 Add-Type -Path "C:\Program Files\Common Files\Microsoft Shared\Web Server Extensions\16\ISAPI\Microsoft.SharePoint.Client.dll"
@@ -38,8 +40,10 @@ $filePath = "c:\Test\Stage\"
 #$filePath = "C:\0-install\CTS\projects\CTS-Mig-090-PostMigration\"
 
 ## Input File
-$inputCSV = $filePath + "eyimdUSA-2021561-MC_20211020042932.csv"
-$siteURLSfile = Join-Path $filePath "inputFile_URLS15.csv"
+$inputCSVPermissions = "15.csv"
+$inputCSVURLs = "inputFile_URLS15.csv"
+#$inputCSV = $filePath + "TestInput1.csv"
+$inputCSV = $filePath + $inputCSVPermissions
 
 $sposecurepassword = $spopassword | ConvertTo-SecureString -AsPlainText -Force
 $executingScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
@@ -83,8 +87,9 @@ $OutputLogFilename =$executingScriptDirectory +"\Logs\" + "$((Get-Date).ToString
 #$OutputLogFilename = $filePath +"\Logs\" + "$((Get-Date).ToString("yyyyMMdd_HHmmss"))_GetPermissionEditLog.csv" 
 
 #Input file of the Site URLs - Source URL and Target URL
-#$siteURLSfile = Join-Path $executingScriptDirectory "inputFile_URLS1.csv"
-#$siteURLSfile = Join-Path $filePath "inputFile_URLS6.csv"
+$siteURLSfile = Join-Path $executingScriptDirectory "inputFile_URLS2.csv"
+#$inputCSVURLs = "inputFile_URLS6.csv"
+#$siteURLSfile = Join-Path $filePath $inputCSVURLs
 $intCntSite = 0
 $csvsiteURLs = Import-csv $siteURLSfile 
 $cntSites = $csvsiteURLs.Count
@@ -455,9 +460,6 @@ $accName = $null
         {$oLogDetailsCollection | Select-Object  SiteURL,ObjectURL,AccountOrGroup,Type,Message   | Export-Csv -path $OutputLogFilename }
  
              
-
-
-
 $endTime = Get-Date
 
 Write-Host "Script Execution Time : " $startTime " - " $endTime
