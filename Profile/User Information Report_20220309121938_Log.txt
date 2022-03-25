@@ -1,0 +1,1 @@
+[03/09/2022 12:19:38] - Access to the path 'C:\Users\tmolskow\Your CSV file path' is denied.in the user information list inventory generation script!: 

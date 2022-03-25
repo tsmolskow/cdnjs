@@ -1,0 +1,1 @@
+[03/09/2022 12:36:51] - Could not find a part of the path 'C:\scripts\'.in the user information list inventory generation script!: 
