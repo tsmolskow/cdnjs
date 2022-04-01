@@ -8,7 +8,7 @@ cls
 
 Add-PSSnapin Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue
  
-## Configuration Variables
+## Set Configuration Variables
 $dtgDateTime1 = get-date -uformat %d-%m-%Y-%H.%M.%S
 $SiteURL = "http://houasspd01d:2016" # http://houasspd01d:2016
 $outputReport = "c:\scripts\CSVOutput\UserProfileReport" + $dtgDateTime1 + ".csv"
@@ -16,14 +16,14 @@ $outputReport = "c:\scripts\CSVOutput\UserProfileReport" + $dtgDateTime1 + ".csv
 ## Script Start Time
 Write-Host "Script Start Time:" $dtgDateTime1 "`n" -f Green
 
-## Get Objects
+## Get Site Objects
 $ServiceContext  = Get-SPServiceContext -site $SiteURL
 $UPM = New-Object Microsoft.Office.Server.UserProfiles.UserProfileManager($ServiceContext) 
 
 ## Get All User Profiles
 $UserProfiles = $UPM.GetEnumerator()
  
-## Create Array to Hold Create Profiles
+## Create Array to Hold Profiles
 $ProfileDataCollection = @() 
  
 ## Iterate Through Each Profile
@@ -32,7 +32,7 @@ foreach ($Profile in $UserProfiles)
 
     $ProfileData = New-Object PSObject 
 
-    #Retrieve User Profile Properties 
+    # Retrieve User Profile Properties 
     
     $ProfileData | Add-Member -MemberType NoteProperty -name "User Login" -value $Profile["UserLogin"] 
 
@@ -79,7 +79,7 @@ foreach ($Profile in $UserProfiles)
     $ProfileData | Add-Member -MemberType NoteProperty -name "Work Phone" -value $Profile["WorkPhone"]
 
    
-    #Add User Profile to Array
+    # Add User Profile to Array
     $ProfileDataCollection+=$ProfileData
     write-host "Processed Profile:"$profile["PreferredName"]
 

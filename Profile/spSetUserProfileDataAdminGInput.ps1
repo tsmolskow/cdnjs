@@ -10,7 +10,7 @@ cls
 Add-PSSnapin Microsoft.SharePoint.PowerShell -ErrorAction SilentlyContinue
 
 ## Set Site URL Variable
-$SiteURL = "http://houasspd01d:2016" # http://houasspd01d:2016
+$SiteURL = "http://houasspd01d:2016" 
 
 ## Process spoProfileUpdate File
 $csvFile = "C:\Scripts\CSVInput\UserProfileDBUpdateGold.csv"
@@ -21,7 +21,7 @@ $table = Import-Csv $csvFile -Delimiter ","
 $dtgDateTime = get-date -uformat %d-%m-%Y-%H.%M.%S
 
 ## Create An Error Log
-$errorLog  = "c:\scripts\ErrorLog\ErrorLog" + $dtgDateTime + ".csv"
+$errorLog  = "c:\scripts\ErrorLog\spSetUserProfileDataGInput-ErrorLog" + $dtgDateTime + ".csv"
 Write-Host "Error Log Output File Location:" $errorLog "`n"
 "Error Message Logs: " | Out-File $errorLog 
 
@@ -85,8 +85,9 @@ $UserProfileManager = New-Object Microsoft.Office.Server.UserProfiles.UserProfil
         $Profile["PreferredName"].Value = $PreferredName
         $ProfileData | Add-Member -MemberType NoteProperty -name "Preferred Name" -value $Profile["PreferredName"]
 
+        if($WorkEmail -ne "N/A" -and $WorkEmail -ne "NA" -and $WorkEmail -ne "n/a" -and $WorkEmail -ne "na"){
         $Profile["WorkEmail"].Value = $WorkEmail
-        $ProfileData | Add-Member -MemberType NoteProperty -name "Work Email" -value $Profile["WorkEmail"]
+        $ProfileData | Add-Member -MemberType NoteProperty -name "Work Email" -value $Profile["WorkEmail"]}
 
         $Profile["AboutMe"].Value = $AboutMe
         $ProfileData | Add-Member -MemberType NoteProperty -name "About Me" -value $Profile["AboutMe"]
