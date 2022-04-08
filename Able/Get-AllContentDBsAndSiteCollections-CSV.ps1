@@ -1,0 +1,2 @@
+﻿# $all = ”Content Database,Site URL,Size`r`n” ; Get-SPContentDatabase | %{foreach($site in $_.Sites){$url=$site.url;$size=[System.Math]::Round([int]$site.Usage.Storage/1MB,2); $output=”$($_.Name),$($url),($($size)MB)`r`n”;$all+=$output}}; $all | out-file c:sites.csv -force  -Encoding default
+$all = ”ContentDB,SiteURL `r`n” ; Get-SPContentDatabase | %{foreach($site in $_.Sites){$url=$site.url; $output=”$($_.Name),$($url)`r`n”;$all+=$output}}; $all | out-file e:\scripts\output\All-ContentDBs-and-Sites-NEW-UAT.csv -force -Encoding default

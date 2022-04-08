@@ -1,0 +1,2 @@
+﻿Register-SPWorkflowService -SPSite http://atlas-uat.westlake.com -WorkflowHostUri https://localhost:12290/
+Register-SPWorkflowService -Force -SPSite http://atlas-uat.westlake.com -WorkflowHostUri https://houasspa11t.westlake.wlg.int:12290

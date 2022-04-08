@@ -1,0 +1,2 @@
+﻿New-SPSite http://atlas-uat.westlake.com/sites/MDM -OwnerAlias "westlake\svcspdevfarmadmin" -Language 1033 -Template STS#0 -ContentDatabase SP_Content_ATLAS_MDM_UAT
+Delete-SPSite -Identity 1c309aad-c59d-4b4f-89c2-98b6f8f536e2

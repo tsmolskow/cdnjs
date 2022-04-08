@@ -1,0 +1,1 @@
+﻿Send-MailMessage -SmtpServer localhost -From 'JRoper <jroper@westlake.com>' -To 'JRoper <jroper@westlake.com>' -Subject 'Test mail - houasspa11t'
